@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { fetchMe } from '../api/auth'
-import { setTokenExpiredHandler } from '../api/client'
-import { clearAccessToken, getAccessToken, saveAccessToken } from '../api/tokenStorage'
-import { AuthContext } from './AuthContext'
+import { fetchMe } from '../../apis/auth'
+import { setTokenExpiredHandler } from '../../apis/client'
+import { AuthContext } from '../../hooks/authContext'
+import { clearAccessToken, getAccessToken, saveAccessToken } from '../../utils/tokenStorage'
 
 export default function AuthProvider({ children }) {
   const navigate = useNavigate()

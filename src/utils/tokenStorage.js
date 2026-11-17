@@ -1,4 +1,4 @@
-const ACCESS_TOKEN_KEY = 'pawpose.accessToken'
+import { ACCESS_TOKEN_KEY } from '../constants/storageKeys'
 
 export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY)

@@ -1,8 +1,7 @@
-import { getAccessToken } from './tokenStorage'
+import { NETWORK_ERROR_MESSAGE, UNKNOWN_ERROR_MESSAGE } from '../constants/errorMessages'
+import { getAccessToken } from '../utils/tokenStorage'
 
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL ?? ''}/api/v1`
-const NETWORK_ERROR_MESSAGE = '인터넷 연결을 확인하고 다시 시도해 주세요.'
-const UNKNOWN_ERROR_MESSAGE = '요청을 처리하지 못했어요. 잠시 후 다시 시도해 주세요.'
 
 let handleTokenExpired = () => {}
 
