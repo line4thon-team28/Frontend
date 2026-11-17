@@ -17,6 +17,8 @@ body {
   line-height: 1.45;
   color: var(--color-text);
   background: var(--color-background);
+  word-break: keep-all;
+  overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
