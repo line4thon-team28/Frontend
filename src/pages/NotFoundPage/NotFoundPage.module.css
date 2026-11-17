@@ -1,7 +1,0 @@
-.page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100dvh;
-  padding-top: var(--status-bar-height);
-}

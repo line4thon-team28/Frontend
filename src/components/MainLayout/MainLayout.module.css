@@ -1,8 +1,0 @@
-.layout {
-  min-height: 100dvh;
-  padding-bottom: var(--tab-bar-height);
-}
-
-.content {
-  min-height: calc(100dvh - var(--tab-bar-height));
-}
