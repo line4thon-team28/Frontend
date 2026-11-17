@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import BottomTabBar from '../BottomTabBar/BottomTabBar'
+import BottomTabBar from '../../components/BottomTabBar/BottomTabBar'
 import styles from './MainLayout.module.css'
 
 export default function MainLayout() {

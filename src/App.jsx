@@ -1,10 +1,13 @@
-import { Route, Routes } from 'react-router-dom'
-import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
+import { BrowserRouter } from 'react-router-dom'
+import AuthProvider from './components/AuthProvider/AuthProvider'
+import AppRoutes from './routes/AppRoutes'
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+    <BrowserRouter>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
