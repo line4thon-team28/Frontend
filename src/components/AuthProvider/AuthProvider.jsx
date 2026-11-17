@@ -44,10 +44,14 @@ export default function AuthProvider({ children }) {
         setUser(me)
         setStatus('authenticated')
       })
-      .catch(() => {
+      .catch((error) => {
         if (ignore) return
-        clearAccessToken()
-        setStatus('guest')
+        if (error.status === 401) {
+          clearAccessToken()
+          setStatus('guest')
+          return
+        }
+        setStatus('authenticated')
       })
 
     return () => {
