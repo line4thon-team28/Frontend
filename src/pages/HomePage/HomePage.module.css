@@ -1,0 +1,132 @@
+.page {
+  padding: calc(var(--status-bar-height) + 6px) var(--page-padding-x) 32px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.greeting {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+}
+
+.title {
+  margin-top: 1px;
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 37px;
+  letter-spacing: -0.8px;
+}
+
+.description {
+  margin-top: 7px;
+  font-size: 15px;
+  line-height: 22.15px;
+  color: var(--color-text-secondary);
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 23px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 128px;
+  padding: 20px;
+  overflow: hidden;
+  border-radius: 24px;
+  color: #fff;
+  transition: transform 0.1s ease;
+}
+
+.card:active {
+  transform: scale(0.98);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+.primary {
+  background: var(--color-primary);
+  box-shadow: 0 14px 30px rgba(232, 121, 29, 0.28);
+}
+
+.dark {
+  background: var(--color-dark);
+}
+
+.cardDecoration {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dark .cardDecoration {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 33px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.dark .cardIcon {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.cardIcon img {
+  width: 22px;
+  height: 22px;
+}
+
+.cardTitle {
+  position: relative;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 32px;
+  letter-spacing: -0.4px;
+}
+
+.cardDescription {
+  position: relative;
+  margin-top: 3px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.dark .cardDescription {
+  font-weight: 500;
+  color: #e9e2d8;
+}
+
+.cardArrow {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 32px;
+}
