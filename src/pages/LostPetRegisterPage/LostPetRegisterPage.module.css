@@ -1,0 +1,214 @@
+.page {
+  min-height: 100dvh;
+  padding: var(--page-top-space) var(--page-padding-x) calc(env(safe-area-inset-bottom, 0px) + 120px);
+}
+
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.title {
+  position: absolute;
+  left: 50%;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  transform: translateX(-50%);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 18px;
+}
+
+.speciesField {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.sectionLabel {
+  padding: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.required {
+  color: var(--color-primary);
+}
+
+.segment {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.segmentButton {
+  height: 46px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-surface);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.segmentButton.selected {
+  border-color: var(--color-dark);
+  background: var(--color-dark);
+  font-weight: 700;
+  color: #fff;
+}
+
+.segmentButton:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.counter {
+  font-size: 12px;
+  line-height: 17px;
+  color: #7a6f63;
+}
+
+.optional {
+  font-weight: 400;
+  color: #7a6f63;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  outline: none;
+  background: var(--color-surface);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input {
+  height: 50px;
+  padding: 0 14px;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(232, 121, 29, 0.12);
+}
+
+.input.invalid {
+  border-color: var(--color-error);
+}
+
+.dateInput {
+  min-width: 0;
+  appearance: none;
+}
+
+.emptyDate {
+  color: var(--color-text-subtle);
+}
+
+.textarea {
+  min-height: 64px;
+  padding: 12px 14px;
+  font-weight: 400;
+  line-height: 20px;
+  resize: vertical;
+}
+
+.contactInput {
+  font-size: 15px;
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 17px;
+  color: #7a6f63;
+}
+
+.hint img {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: var(--app-max-width);
+  padding: 16px var(--page-padding-x) calc(env(safe-area-inset-bottom, 0px) + 20px);
+  background: linear-gradient(rgba(251, 247, 241, 0), var(--color-background) 30%);
+  transform: translateX(-50%);
+}
+
+.submitButton {
+  border-radius: 18px;
+}
+
+.submitButton.incomplete {
+  background: var(--color-border);
+  box-shadow: none;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}

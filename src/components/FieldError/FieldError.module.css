@@ -1,0 +1,15 @@
+.error {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 17px;
+  color: var(--color-error);
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
