@@ -1,0 +1,83 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+  padding: 14px;
+  border-radius: 22px;
+  background: var(--color-surface);
+  box-shadow: 0 2px 5px rgba(60, 40, 20, 0.05);
+}
+
+.summary {
+  display: flex;
+  gap: 12px;
+}
+
+.lines {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.block {
+  display: block;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--color-skeleton) 0%, #f7f1e9 50%, var(--color-skeleton) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.photo {
+  flex-shrink: 0;
+  width: 84px;
+  height: 84px;
+  border-radius: 16px;
+}
+
+.short {
+  width: 40%;
+  height: 18px;
+}
+
+.long {
+  width: 85%;
+  height: 14px;
+}
+
+.medium {
+  width: 65%;
+  height: 12px;
+}
+
+.tiny {
+  width: 45%;
+  height: 12px;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.button {
+  height: 40px;
+  border-radius: 12px;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .block {
+    animation: none;
+  }
+}
