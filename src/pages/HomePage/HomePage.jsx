@@ -22,7 +22,7 @@ const ACTION_CARDS = [
   },
 ]
 
-export default function HomePage() {
+export default function HomePage({ sightingPreview } = {}) {
   const { user } = useAuth()
   const greeting = user?.nickname ? `${user.nickname}님, 안녕하세요` : '안녕하세요'
 
@@ -52,6 +52,9 @@ export default function HomePage() {
                 →
               </span>
             </Link>
+            {to === '/sightings/new' && sightingPreview && (
+              <div className={styles.sightingPreview}>{sightingPreview}</div>
+            )}
           </li>
         ))}
       </ul>
