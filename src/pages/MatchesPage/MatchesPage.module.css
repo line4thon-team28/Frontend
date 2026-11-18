@@ -1,0 +1,236 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--tab-bar-height));
+  padding: var(--page-top-space) var(--page-padding-x) 32px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.petHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.petPhoto {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.petText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.petTitle {
+  overflow: hidden;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: -0.4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.petDetails {
+  font-size: 12px;
+  line-height: 17px;
+  color: #7a6f63;
+}
+
+.placeholder {
+  display: block;
+  border-radius: 8px;
+  background: var(--color-skeleton);
+}
+
+.titlePlaceholder {
+  width: 110px;
+  height: 20px;
+}
+
+.subtitlePlaceholder {
+  width: 160px;
+  height: 14px;
+  margin-top: 4px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.sortGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.sortButton {
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 19px;
+  color: var(--color-text-secondary);
+}
+
+.sortButton:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.sortButton:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.sortSelected {
+  border-color: var(--color-dark);
+  background: var(--color-dark);
+  font-weight: 700;
+  color: #fff;
+}
+
+.countLabel {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 17px;
+  color: #7a6f63;
+  white-space: nowrap;
+}
+
+.disabledText {
+  opacity: 0.5;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.groupTitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 17px;
+  color: #7a6f63;
+}
+
+.pinnedTitle {
+  color: #a9500b;
+}
+
+.pinnedTitle img {
+  width: 14px;
+  height: 14px;
+}
+
+.centered {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.analyzingCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 20px 30px;
+  border-radius: 22px;
+  background: var(--color-surface);
+  box-shadow: 0 2px 5px rgba(60, 40, 20, 0.05);
+  text-align: center;
+}
+
+.analyzingRing {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+}
+
+.analyzingRing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 4px solid #f3e9dc;
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1.1s linear infinite;
+}
+
+.analyzingRing img {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.analyzingTitle {
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+.analyzingText {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+}
+
+.fadedSkeleton {
+  opacity: 0.6;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .analyzingRing::before {
+    animation: none;
+  }
+}
