@@ -321,7 +321,7 @@ export default function MatchesPage() {
     <div className={styles.page}>
       <header className={styles.header}>
         <LostPetHeader lostPet={lostPet} />
-        <NotificationBell />
+        <NotificationBell showBadge={lostPet?.status !== 'FOUND'} />
       </header>
 
       <div className={styles.toolbar}>
