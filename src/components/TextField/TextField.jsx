@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import alertIcon from '../../assets/icons/alert-field.svg'
+import FieldError from '../FieldError/FieldError'
 import styles from './TextField.module.css'
 
 export default function TextField({
@@ -35,10 +35,7 @@ export default function TextField({
         {trailing}
       </div>
       {error ? (
-        <p id={messageId} className={styles.error}>
-          <img src={alertIcon} alt="" className={styles.messageIcon} />
-          {error}
-        </p>
+        <FieldError id={messageId}>{error}</FieldError>
       ) : (
         hint && (
           <div id={messageId} className={styles.hint}>
