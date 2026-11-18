@@ -1,5 +1,5 @@
 .page {
-  padding: calc(var(--status-bar-height) + 6px) var(--page-padding-x) 32px;
+  padding: calc(var(--page-top-space) + 6px) var(--page-padding-x) 32px;
 }
 
 .header {

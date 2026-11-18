@@ -6,6 +6,7 @@ import leftPetPhoto from '../../assets/images/pet-e.webp'
 import rightPetPhoto from '../../assets/images/pet-g.webp'
 import Button from '../../components/Button/Button'
 import PetPhotoCircle from '../../components/PetPhotoCircle/PetPhotoCircle'
+import { startKakaoLogin } from '../../utils/kakaoAuth'
 import styles from './StartPage.module.css'
 
 export default function StartPage() {
@@ -42,7 +43,7 @@ export default function StartPage() {
       </section>
 
       <div className={styles.actions}>
-        <Button variant="kakao" icon={kakaoIcon} onClick={() => navigate('/login')}>
+        <Button variant="kakao" icon={kakaoIcon} onClick={() => startKakaoLogin()}>
           카카오로 3초 만에 시작하기
         </Button>
         <Button variant="outline" className={styles.emailButton} onClick={() => navigate('/signup')}>

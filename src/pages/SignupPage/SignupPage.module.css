@@ -1,0 +1,93 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: var(--page-top-space) var(--page-padding-x) calc(env(safe-area-inset-bottom, 0px) + 30px);
+}
+
+.backButton {
+  margin-left: -4px;
+}
+
+.title {
+  margin-top: 13px;
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 37px;
+  letter-spacing: -0.8px;
+}
+
+.description {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+}
+
+.kakaoButton {
+  height: 52px;
+  margin-top: 19px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 19px;
+  color: #7a6f63;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.form {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 12px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkIcon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.3;
+  transition: opacity 0.15s ease;
+}
+
+.checkIcon.checked {
+  opacity: 1;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 32px;
+}
+
+.footer {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.footerLink {
+  font-weight: 700;
+  color: var(--color-primary);
+}

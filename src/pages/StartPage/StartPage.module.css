@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  padding: calc(var(--status-bar-height) - 4px) 0 30px;
+  padding: var(--page-top-space) 0 30px;
 }
 
 .header {

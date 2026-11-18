@@ -29,6 +29,6 @@
 
   --app-max-width: 640px;
   --page-padding-x: 24px;
-  --status-bar-height: 62px;
+  --page-top-space: calc(env(safe-area-inset-top, 0px) + 16px);
   --tab-bar-height: 84px;
 }

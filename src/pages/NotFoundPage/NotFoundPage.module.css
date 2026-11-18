@@ -3,5 +3,5 @@
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
-  padding-top: var(--status-bar-height);
+  padding-top: var(--page-top-space);
 }
