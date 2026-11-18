@@ -1,0 +1,96 @@
+.card {
+  display: flex;
+  gap: 12px;
+  padding: 13px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  background: var(--color-surface);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.unread {
+  border-color: #f4c9a2;
+}
+
+.read {
+  opacity: 0.7;
+}
+
+.photo {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.read .photo {
+  opacity: 0.7;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.type {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 17px;
+  color: var(--color-primary);
+}
+
+.read .type {
+  color: var(--color-text-muted);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.time {
+  flex-shrink: 0;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--color-text-muted);
+}
+
+.title {
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.description {
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--color-text-secondary);
+}
