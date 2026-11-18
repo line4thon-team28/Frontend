@@ -1,0 +1,19 @@
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--color-error-soft);
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 20px;
+  color: var(--color-error-strong);
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}

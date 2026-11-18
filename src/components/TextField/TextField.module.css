@@ -15,7 +15,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 52px;
   padding: 0 15px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-input);
@@ -25,9 +24,25 @@
     box-shadow 0.15s ease;
 }
 
+.large {
+  height: 52px;
+}
+
+.medium {
+  height: 48px;
+}
+
 .inputBox:focus-within {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(232, 121, 29, 0.12);
+}
+
+.inputBox.invalid {
+  border-color: var(--color-error);
+}
+
+.inputBox.invalid:focus-within {
+  box-shadow: 0 0 0 3px rgba(215, 55, 47, 0.12);
 }
 
 .icon {
@@ -51,4 +66,28 @@
 .input::placeholder {
   color: var(--color-text-muted);
   font-weight: 400;
+}
+
+.error,
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.error {
+  font-weight: 700;
+  color: var(--color-error);
+}
+
+.hint {
+  color: #7a6f63;
+}
+
+.messageIcon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
 }

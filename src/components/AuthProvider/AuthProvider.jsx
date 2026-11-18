@@ -28,9 +28,11 @@ export default function AuthProvider({ children }) {
     setTokenExpiredHandler(() => {
       signOut()
       const { pathname, search } = window.location
-      navigate('/login', { state: { reason: 'expired', from: `${pathname}${search}` } })
+      navigate('/login', {
+        state: { reason: 'expired', from: `${pathname}${search}`, email: user?.email },
+      })
     })
-  }, [navigate, signOut])
+  }, [navigate, signOut, user])
 
   useEffect(() => {
     if (!getAccessToken()) {

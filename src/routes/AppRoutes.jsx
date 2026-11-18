@@ -1,9 +1,12 @@
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout/MainLayout'
 import HomePage from '../pages/HomePage/HomePage'
+import KakaoCallbackPage from '../pages/KakaoCallbackPage/KakaoCallbackPage'
+import LoginPage from '../pages/LoginPage/LoginPage'
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage'
 import SplashPage from '../pages/SplashPage/SplashPage'
 import StartPage from '../pages/StartPage/StartPage'
+import GuestOnly from './GuestOnly'
 import RequireAuth from './RequireAuth'
 
 export default function AppRoutes() {
@@ -11,6 +14,10 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<SplashPage />} />
       <Route path="/start" element={<StartPage />} />
+      <Route element={<GuestOnly />}>
+        <Route path="/login" element={<LoginPage />} />
+      </Route>
+      <Route path="/oauth/kakao/callback" element={<KakaoCallbackPage />} />
       <Route element={<RequireAuth />}>
         <Route element={<MainLayout />}>
           <Route path="/home" element={<HomePage />} />
