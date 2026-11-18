@@ -1,0 +1,16 @@
+.dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overscroll-behavior: contain;
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 16px 48px rgb(43 35 27 / 18%);
+}
+
+.dialog::backdrop {
+  overscroll-behavior: contain;
+  background: rgb(43 35 27 / 42%);
+}

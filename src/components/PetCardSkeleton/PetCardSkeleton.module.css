@@ -1,0 +1,74 @@
+.root.root {
+  box-shadow: none;
+}
+
+.summary,
+.lines,
+.actions {
+  display: grid;
+  gap: 8px;
+}
+
+.summary {
+  grid-template-columns: clamp(60px, 22vw, 84px) minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+}
+
+.photo,
+.lines span,
+.actions span {
+  border-radius: 12px;
+  background: var(--color-skeleton);
+}
+
+.photo {
+  aspect-ratio: 1;
+  border-radius: 15px;
+}
+
+.lines {
+  padding-top: 5px;
+}
+
+.lines span {
+  width: 35%;
+  height: 13px;
+}
+
+.lines span:nth-child(2) { width: 80%; }
+.lines span:nth-child(3) { width: 65%; }
+.lines span:nth-child(4) { width: 45%; }
+
+.actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.actions span { height: 40px; }
+
+.registration .summary {
+  grid-template-columns: clamp(64px, 25vw, 92px) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.registration .photo { border-radius: 18px; }
+.registration .lines { padding-top: 4px; }
+
+.registration .lines span {
+  width: min(100%, 95px);
+  height: 12px;
+  border-radius: 8px;
+}
+
+.registration .lines span:first-child { height: 18px; }
+.registration .lines span:nth-child(2) { width: min(100%, 151px); height: 13px; }
+.registration .lines span:nth-child(3) { width: min(100%, 132px); }
+.registration .lines span:last-child { width: min(100%, 76px); }
+
+.registration .actions { margin-top: 14px; }
+
+.registration .actions span {
+  height: 44px;
+  border-radius: var(--radius-input);
+}
