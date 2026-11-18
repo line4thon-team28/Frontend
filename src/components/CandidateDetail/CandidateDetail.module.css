@@ -1,0 +1,371 @@
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-content: space-between;
+  align-items: start;
+  position: relative;
+  isolation: isolate;
+  min-height: clamp(220px, 70vw, 310px);
+  padding: max(20px, env(safe-area-inset-top, 0px)) 20px 36px;
+  background: var(--color-tag);
+}
+
+.sightingHero {
+  min-height: clamp(270px, 88vw, 388px);
+}
+
+.heroPhotoButton {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.heroPhotoButton:focus-visible {
+  outline: 3px solid var(--color-primary-strong);
+  outline-offset: -3px;
+}
+
+.heroPhoto {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.closedPhoto {
+  filter: grayscale(1);
+}
+
+.back {
+  justify-self: start;
+}
+
+.sightingBadge {
+  padding: 7px 12px;
+  border-radius: 10px;
+  color: var(--color-surface);
+  background: var(--color-dark);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.closedOverlay {
+  grid-column: 1 / -1;
+  margin-inline: -20px;
+  padding: 12px 20px;
+  color: var(--color-surface);
+  background: rgba(43, 37, 32, 0.88);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.comparison {
+  grid-column: 1 / -1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 8px;
+  border-radius: 14px;
+  background: var(--color-surface);
+  font-size: 10px;
+  color: var(--color-text-secondary);
+}
+
+.comparison img {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+}
+
+.comparison strong {
+  display: block;
+  padding-right: 4px;
+  color: var(--color-primary-strong);
+  font-size: 13px;
+}
+
+.content {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  margin-top: -24px;
+  padding: 18px var(--page-padding-x) 12px;
+  border-radius: 28px 28px 0 0;
+  background: var(--color-background);
+}
+
+.deadline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 18px;
+}
+
+.openDeadline,
+.urgentDeadline {
+  color: var(--color-surface);
+  background: var(--color-primary);
+}
+
+.urgentDeadline {
+  background: var(--color-error);
+}
+
+.closedDeadline {
+  color: var(--color-text-label);
+  background: var(--color-skeleton);
+}
+
+.deadlineBadge {
+  display: grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  padding-inline: 4px;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.closedDeadline .deadlineBadge {
+  background: var(--color-surface);
+  font-size: 12px;
+}
+
+.deadline h2 {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.deadline p {
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.titleRow,
+.previewButtons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+
+.previewButtons button {
+  min-height: 32px;
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.previewButtons button[aria-pressed='true'] {
+  border-color: var(--color-primary-strong);
+  background: var(--color-primary-soft);
+}
+
+.title,
+.sightingTitle {
+  font-size: 20px;
+  line-height: 1.36;
+}
+
+.meta {
+  margin-top: -8px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.facts div {
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: var(--color-surface);
+}
+
+.facts dt {
+  margin-bottom: 2px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.facts dd {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.description h2,
+.supplies h2 {
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.description p,
+.supplies p {
+  font-size: 14px;
+  color: var(--color-text-label);
+}
+
+.facility {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.facilityIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--color-tag);
+}
+
+.facility h2 {
+  font-size: 14px;
+}
+
+.facility p {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.mapLink {
+  color: var(--color-primary-strong);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.supplies {
+  padding: 14px 16px;
+  border: 1px dashed var(--color-border);
+  border-radius: 16px;
+}
+
+.sightingContent {
+  gap: 16px;
+  padding-top: 22px;
+}
+
+.sightingTitle {
+  font-size: 22px;
+  word-break: normal;
+}
+
+.note {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: var(--color-surface);
+}
+
+.note h2,
+.privacy {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.note p {
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.actions {
+  margin-top: auto;
+  padding: 14px var(--page-padding-x) calc(16px + env(safe-area-inset-bottom, 0px));
+}
+
+.callLink,
+.mapAction {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 10px 16px;
+  border-radius: var(--radius-button);
+}
+
+.callLink {
+  flex-wrap: wrap;
+  justify-content: center;
+  color: var(--color-surface);
+  background: var(--color-primary);
+}
+
+.callLink span {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.mapAction {
+  justify-content: space-between;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.mapAction div span {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.mapAction .mapLink {
+  flex-shrink: 0;
+}
+
+.feedbackActions {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 2.75fr);
+  gap: 8px;
+}
+
+.feedbackActions button {
+  padding-inline: 6px;
+  box-shadow: none;
+}
+
+.mapLink:focus-visible,
+.callLink:focus-visible,
+.mapAction:focus-visible {
+  outline: 2px solid var(--color-primary-strong);
+  outline-offset: 2px;
+}
+
+.notFound {
+  display: grid;
+  place-content: center;
+  min-height: 100dvh;
+  padding: 24px;
+}
+
+@media (max-width: 340px) {
+  .content,
+  .actions {
+    padding-inline: 16px;
+  }
+
+  .facility {
+    gap: 8px;
+    padding-inline: 12px;
+  }
+}
