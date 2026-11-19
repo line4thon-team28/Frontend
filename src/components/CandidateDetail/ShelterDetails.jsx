@@ -1,11 +1,11 @@
 import { formatPetDescription } from '../../utils/formatPetInfo'
 import layout from '../../layouts/PetPageLayout.module.css'
-import { SHELTER_PREVIEWS } from '../../hooks/useCandidateDetailPage'
 import styles from './CandidateDetail.module.css'
 
 function DeadlineCard({ candidate, closed }) {
   const { deadlineDays, deadlineDate } = candidate
-  const urgent = !closed && deadlineDays <= 2
+  const urgent = !closed && (candidate.urgent ?? deadlineDays <= 2)
+  if (!closed && deadlineDays == null) return null
   const tone = closed ? styles.closedDeadline : urgent ? styles.urgentDeadline : styles.openDeadline
   const title = closed
     ? '공고 종료'
@@ -25,7 +25,7 @@ function DeadlineCard({ candidate, closed }) {
   )
 }
 
-export default function ShelterDetails({ candidate, closed, mapUrl, phone, scenario, onPreview }) {
+export default function ShelterDetails({ candidate, closed, mapUrl, phone, children }) {
   const facts = [
     ['색', candidate.coat],
     ['나이', candidate.age],
@@ -39,13 +39,6 @@ export default function ShelterDetails({ candidate, closed, mapUrl, phone, scena
         <DeadlineCard candidate={candidate} closed={closed} />
         <div className={styles.titleRow}>
           <h1 className={styles.title}>{formatPetDescription(candidate)}</h1>
-          <div className={styles.previewButtons} role="group" aria-label="공고 화면 미리보기">
-            {Object.entries(SHELTER_PREVIEWS).map(([value, label]) => (
-              <button key={value} type="button" aria-pressed={scenario === value} onClick={() => onPreview(value)}>
-                {label}
-              </button>
-            ))}
-          </div>
         </div>
         <p className={styles.meta}>
           {[
@@ -85,6 +78,7 @@ export default function ShelterDetails({ candidate, closed, mapUrl, phone, scena
             <p>{Array.isArray(candidate.supplies) ? candidate.supplies.join(' · ') : candidate.supplies}</p>
           </section>
         )}
+        {children}
       </section>
 
       {phone && (
