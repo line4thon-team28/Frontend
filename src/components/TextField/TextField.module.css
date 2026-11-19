@@ -68,11 +68,26 @@
   font-weight: 400;
 }
 
+.error,
 .hint {
   display: flex;
   align-items: center;
   gap: 5px;
   font-size: 12px;
   line-height: 17px;
+}
+
+.error {
+  font-weight: 700;
+  color: var(--color-error);
+}
+
+.hint {
   color: #7a6f63;
+}
+
+.messageIcon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
 }
