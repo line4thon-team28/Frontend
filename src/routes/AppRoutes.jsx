@@ -4,6 +4,7 @@ import HomePage from '../pages/HomePage/HomePage'
 import KakaoCallbackPage from '../pages/KakaoCallbackPage/KakaoCallbackPage'
 import LoginPage from '../pages/LoginPage/LoginPage'
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage'
+import SightingReportPage from '../pages/SightingReportPage/SightingReportPage'
 import SignupPage from '../pages/SignupPage/SignupPage'
 import SplashPage from '../pages/SplashPage/SplashPage'
 import StartPage from '../pages/StartPage/StartPage'
@@ -20,6 +21,7 @@ export default function AppRoutes() {
         <Route path="/signup" element={<SignupPage />} />
       </Route>
       <Route path="/oauth/kakao/callback" element={<KakaoCallbackPage />} />
+      <Route path="/sightings/new" element={<SightingReportPage />} />
       <Route element={<RequireAuth />}>
         <Route element={<MainLayout />}>
           <Route path="/home" element={<HomePage />} />

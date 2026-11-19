@@ -1,0 +1,210 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: var(--page-top-space) var(--page-padding-x) 0;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.headerTitle {
+  position: absolute;
+  left: 50%;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  transform: translateX(-50%);
+}
+
+.title {
+  margin-top: 17px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 35px;
+  letter-spacing: -0.5px;
+}
+
+.description {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 20.5px;
+  color: var(--color-text-secondary);
+}
+
+.form {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.speciesField {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.label {
+  padding: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.required {
+  color: var(--color-primary);
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.chip {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-surface);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.chip:has(input:focus-visible) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.chipSelected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  font-weight: 700;
+  color: var(--color-primary-strong);
+}
+
+.hiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.cell {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.smallLabel {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.optional {
+  font-weight: 400;
+  color: #7a6f63;
+}
+
+.box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-surface);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.box:focus-within,
+.memoInput:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(232, 121, 29, 0.12);
+}
+
+.boxText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timeInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.memoInput {
+  outline: none;
+  font-weight: 400;
+  color: var(--color-text-label);
+}
+
+.memoInput::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  padding: 24px 0 calc(env(safe-area-inset-bottom, 0px) + 24px);
+  background: linear-gradient(to bottom, rgba(251, 247, 241, 0), var(--color-background) 24px);
+}
+
+.submit {
+  border-radius: 18px;
+}
+
+.submit.submitBlocked:disabled {
+  background: var(--color-border);
+  box-shadow: none;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  opacity: 1;
+}
