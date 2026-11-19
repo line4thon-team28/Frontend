@@ -51,6 +51,18 @@
   color: var(--color-text);
 }
 
+.skeletonGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.skeletonHeading {
+  width: 28px;
+  height: 12px;
+  margin: 2px 0 3px;
+}
+
 .skeleton {
   display: flex;
   gap: 12px;
