@@ -255,16 +255,14 @@
 
 .select::after {
   position: absolute;
-  inset-inline-end: 17px;
-  top: calc(50% - 3px);
-  width: 6px;
-  height: 6px;
-  border-style: solid;
-  border-color: var(--color-text-muted);
-  border-width: 0 1px 1px 0;
-  transform: rotate(45deg);
+  top: 50%;
+  inset-inline-end: 14px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--color-text-subtle);
+  transform: translateY(-50%);
   pointer-events: none;
-  content: '';
+  content: '⌵';
 }
 
 .dateTrigger {
