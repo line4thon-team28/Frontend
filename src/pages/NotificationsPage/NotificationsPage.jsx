@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { fetchMyLostPets } from '../../apis/lostPets'
 import { fetchNotifications, markNotificationRead } from '../../apis/notifications'
 import bellIcon from '../../assets/icons/bell.svg'
 import errorIcon from '../../assets/icons/error.svg'
@@ -11,6 +12,10 @@ import { getDayGroup } from '../../utils/dateTime'
 import styles from './NotificationsPage.module.css'
 
 const SKELETON_COUNT = 4
+
+function toPhotoMap(pets) {
+  return Object.fromEntries(pets.filter((pet) => pet.thumbnail).map((pet) => [pet.lostPetId, pet.thumbnail]))
+}
 
 function groupByDay(notifications) {
   return notifications.reduce((groups, notification) => {
@@ -45,8 +50,11 @@ export default function NotificationsPage() {
 
   useEffect(() => {
     let ignore = false
-    fetchNotifications()
-      .then((data) => !ignore && setResult({ token: reloadToken, items: data.items }))
+    const photosRequest = fetchMyLostPets()
+      .then(toPhotoMap)
+      .catch(() => ({}))
+    Promise.all([fetchNotifications(), photosRequest])
+      .then(([data, photos]) => !ignore && setResult({ token: reloadToken, items: data.items, photos }))
       .catch((error) => !ignore && setResult({ token: reloadToken, error }))
     return () => {
       ignore = true
@@ -115,7 +123,11 @@ export default function NotificationsPage() {
         <ul className={styles.list}>
           {group.items.map((notification) => (
             <li key={notification.notificationId}>
-              <NotificationCard notification={notification} onOpen={handleOpen} />
+              <NotificationCard
+                notification={notification}
+                photo={result.photos[notification.lostPetId]}
+                onOpen={handleOpen}
+              />
             </li>
           ))}
         </ul>
