@@ -3,14 +3,19 @@ import PetPhoto from '../PetPhoto/PetPhoto'
 import Button from '../Button/Button'
 import layout from '../../layouts/PetPageLayout.module.css'
 import { candidateDetailPath } from '../../routes/petPaths'
-import { candidateDeadline } from '../../hooks/useCandidatesPage'
 import styles from './CandidateResults.module.css'
+
+function candidateDeadline(candidate) {
+  return !candidate.closed && Number.isFinite(candidate.deadlineDays) && candidate.deadlineDays >= 0
+    ? candidate.deadlineDays
+    : Number.POSITIVE_INFINITY
+}
 
 export default function CandidateCard({ candidate, petId, pinned, readOnly, precise, setFocusTarget, showFeedback }) {
   const isSighting = candidate.type === 'sighting'
   const detailUrl = candidateDetailPath(candidate.id, petId)
   const deadline = candidateDeadline(candidate)
-  const urgent = deadline <= 2
+  const urgent = candidate.urgent ?? deadline <= 2
 
   return (
     <li className={`${layout.card} ${styles.card} ${pinned ? styles.pinned : ''} ${readOnly ? styles.readOnly : ''}`}>
@@ -18,8 +23,9 @@ export default function CandidateCard({ candidate, petId, pinned, readOnly, prec
         <Link
           className={`${layout.cardSummary} ${styles.cardSummary}`}
           to={detailUrl}
+          state={{ candidate, petId }}
           aria-label={`${candidate.title} 상세 보기`}
-          ref={(element) => setFocusTarget(candidate.id, element)}
+          ref={setFocusTarget ? (element) => { setFocusTarget(candidate.id, element) } : undefined}
         >
           <PetPhoto className={styles.candidatePhoto} photo={candidate.photo} />
           <div className={styles.cardDetails}>
@@ -36,7 +42,7 @@ export default function CandidateCard({ candidate, petId, pinned, readOnly, prec
               <p className={styles.candidateMeta}>제보자 익명</p>
             ) : (
               <p className={`${styles.deadline} ${urgent ? styles.urgent : ''}`}>
-                {Number.isFinite(deadline) ? `마감까지 ${deadline}일${urgent ? ' · 긴급' : ''}` : '공고 종료'}
+                {Number.isFinite(deadline) ? `마감까지 ${deadline}일${urgent ? ' · 긴급' : ''}` : candidate.closed ? '공고 종료' : '마감일 정보 없음'}
               </p>
             )}
           </div>
@@ -44,8 +50,8 @@ export default function CandidateCard({ candidate, petId, pinned, readOnly, prec
 
         {pinned ? (
           <div className={`${layout.cardActions} ${styles.cardActions}`}>
-            <Link className={styles.secondaryAction} to={detailUrl}>{isSighting ? '제보 상세 보기' : '공고 상세 보기'}</Link>
-            <Button variant="dark" size="compact" onClick={() => showFeedback(candidate.id, 'found')}>
+            <Link className={styles.secondaryAction} to={detailUrl} state={{ candidate, petId }}>{isSighting ? '제보 상세 보기' : '공고 상세 보기'}</Link>
+            <Button variant="dark" size="compact" disabled={readOnly} onClick={() => showFeedback(candidate.id, 'found')}>
               찾았어요
             </Button>
           </div>

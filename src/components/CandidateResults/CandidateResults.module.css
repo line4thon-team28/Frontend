@@ -11,8 +11,14 @@
 }
 
 .petPhoto {
+  display: block;
   width: 48px;
   height: 48px;
+  flex: none;
+  border-radius: 13px;
+}
+
+.petPhotoLink {
   flex: none;
   border-radius: 13px;
 }

@@ -32,7 +32,7 @@ function WaitingStatus({ title, description, children }) {
   )
 }
 
-export default function CandidateStatus({ phase, pet, found, retryAnalysis, retryLoading }) {
+export default function CandidateStatus({ phase, pet, found, retryAnalysis, retryLoading, processingMessage, busy }) {
   return (
     <>
     {phase === 'loading' && (
@@ -46,7 +46,7 @@ export default function CandidateStatus({ phase, pet, found, retryAnalysis, retr
         <section className={styles.analyzingCard}>
           <div className={styles.progressPhoto} role="progressbar" aria-label="사진 분석 중"><PetPhoto photo={pet?.photo} /></div>
           <h2>사진 분석 중이에요</h2>
-          <p>10초마다 자동으로 새로고침돼요.</p>
+          <p>{processingMessage || '10초마다 자동으로 새로고침돼요.'}</p>
         </section>
         <PetCardSkeleton className={`${layout.card} ${styles.card}`} />
       </div>
@@ -57,7 +57,7 @@ export default function CandidateStatus({ phase, pet, found, retryAnalysis, retr
         <Notice title="등록은 저장됐어요">사진 분석에 실패했어요. 잠시 후 다시 비교할게요.</Notice>
         <div className={`${layout.centeredState} ${styles.centered}`}>
           <WaitingStatus title="사진 분석에 실패했어요" description="다음 주기에 자동으로 다시 비교해요. 지금 바로 다시 분석할 수도 있어요.">
-            <Button variant="dark" size="medium" className={styles.retryButton} onClick={retryAnalysis}>다시 분석하기</Button>
+            <Button variant="dark" size="medium" className={styles.retryButton} disabled={busy} onClick={retryAnalysis}>다시 분석하기</Button>
           </WaitingStatus>
         </div>
       </>
