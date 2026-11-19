@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import cameraIcon from '../../assets/icons/camera.svg'
 import pawIcon from '../../assets/icons/paw-white.svg'
@@ -9,9 +10,11 @@ const TYPE_DISPLAY = {
   SIGHTING: { label: '목격 제보', subject: '비슷한 아이가 목격됐어요', icon: cameraIcon, tone: 'sighting' },
 }
 
-export default function NotificationCard({ notification, onOpen }) {
+export default function NotificationCard({ notification, photo, onOpen }) {
   const display = TYPE_DISPLAY[notification.matchType] ?? TYPE_DISPLAY.NOTICE
   const isUnread = !notification.read
+  const [brokenPhoto, setBrokenPhoto] = useState(null)
+  const showPhoto = Boolean(photo) && brokenPhoto !== photo
 
   return (
     <Link
@@ -19,9 +22,13 @@ export default function NotificationCard({ notification, onOpen }) {
       className={`${styles.card} ${isUnread ? styles.unread : styles.read}`}
       onClick={() => onOpen(notification)}
     >
-      <span className={`${styles.thumb} ${styles[display.tone]}`} aria-hidden="true">
-        <img src={display.icon} alt="" className={styles.thumbIcon} />
-      </span>
+      {showPhoto ? (
+        <img src={photo} alt="" className={styles.photo} onError={() => setBrokenPhoto(photo)} />
+      ) : (
+        <span className={`${styles.thumb} ${styles[display.tone]}`} aria-hidden="true">
+          <img src={display.icon} alt="" className={styles.thumbIcon} />
+        </span>
+      )}
       <div className={styles.body}>
         <div className={styles.topRow}>
           <span className={styles.type}>
