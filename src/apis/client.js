@@ -1,7 +1,7 @@
 import { NETWORK_ERROR_MESSAGE, UNKNOWN_ERROR_MESSAGE } from '../constants/errorMessages'
 import { getAccessToken } from '../utils/tokenStorage'
 
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL ?? ''}/api/v1`
+const API_BASE_URL = `${(import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')}/api/v1`
 
 let handleTokenExpired = () => {}
 
