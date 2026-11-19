@@ -10,6 +10,7 @@ import SignupPage from '../pages/SignupPage/SignupPage'
 import SplashPage from '../pages/SplashPage/SplashPage'
 import StartPage from '../pages/StartPage/StartPage'
 import GuestOnly from './GuestOnly'
+import { petRoutes, petTabRoutes } from './petRoutes'
 import RequireAuth from './RequireAuth'
 
 export default function AppRoutes() {
@@ -26,8 +27,10 @@ export default function AppRoutes() {
       <Route element={<RequireAuth />}>
         <Route element={<MainLayout />}>
           <Route path="/home" element={<HomePage />} />
+          {petTabRoutes.map(({ path, element }) => <Route key={path} path={path} element={element} />)}
           <Route path="/notifications" element={<NotificationsPage />} />
         </Route>
+        {petRoutes.map(({ path, element }) => <Route key={path} path={path} element={element} />)}
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
