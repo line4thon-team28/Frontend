@@ -1,0 +1,422 @@
+.page {
+  --page-bottom-space: 20px;
+  gap: 14px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+}
+
+.petPhoto {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 13px;
+}
+
+.heading {
+  min-width: 0;
+  flex: 1;
+}
+
+.heading h1 {
+  font-size: 18px;
+  font-weight: 850;
+  line-height: 26px;
+  letter-spacing: -0.3px;
+}
+
+.heading p,
+.resultLabel,
+.candidateMeta {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.heading p {
+  margin-top: 2px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 8px;
+  margin-top: 4px;
+}
+
+.toolbarActions,
+.sortOptions {
+  display: flex;
+  gap: 8px;
+}
+
+.toolbarActions {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.sortButton {
+  min-height: 36px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 5px 13px;
+  background: var(--color-surface);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.selectedSort {
+  border-color: var(--color-dark);
+  color: var(--color-surface);
+  background: var(--color-dark);
+}
+
+.sortButton:disabled,
+.readOnly .cardActions button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.resultLabel {
+  margin-inline-start: auto;
+  text-align: end;
+}
+
+.stack {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  padding: 12px 14px;
+  box-shadow: 0 3px 12px rgb(43 37 32 / 4%);
+}
+
+.cardSummary {
+  grid-template-columns: clamp(60px, 22vw, 84px) minmax(0, 1fr);
+  gap: 12px;
+  border-radius: 15px;
+}
+
+.candidatePhoto {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 15px;
+}
+
+.cardDetails {
+  display: grid;
+  gap: 4px;
+}
+
+.scoreRow {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 5px;
+}
+
+.score {
+  color: var(--color-primary-strong);
+  font-size: 21px;
+  font-weight: 850;
+  line-height: 29px;
+}
+
+.scoreLabel {
+  color: var(--color-text-muted);
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.category {
+  align-self: center;
+  margin-inline-start: auto;
+  border-radius: 999px;
+  padding: 3px 8px;
+  color: var(--color-text-label);
+  background: var(--color-tag);
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.sighting {
+  color: var(--color-surface);
+  background: var(--color-dark);
+}
+
+.candidateTitle,
+.deadline {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 20px;
+}
+
+.deadline {
+  color: var(--color-primary-strong);
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.urgent {
+  color: var(--color-error-strong);
+}
+
+.cardActions {
+  margin-top: 12px;
+}
+
+.secondaryAction,
+.page .retryButton {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 19px;
+  text-align: center;
+}
+
+.secondaryAction {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+.page .retryButton {
+  color: var(--color-surface);
+  background: var(--color-dark);
+  gap: 8px;
+  min-height: 46px;
+  border-radius: 16px;
+  padding-inline: 20px;
+  font-size: 14px;
+}
+
+.page :is(a, button):focus-visible {
+  outline: 2px solid var(--color-primary-strong);
+  outline-offset: 2px;
+}
+
+.pinned {
+  border: 2px solid var(--color-primary);
+}
+
+.readOnly .cardSummary {
+  opacity: 0.7;
+}
+
+.pinnedLabel,
+.otherLabel {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 17px;
+}
+
+.pinnedLabel {
+  color: var(--color-primary-strong);
+}
+
+.pinnedLabel span {
+  margin-inline-end: 4px;
+}
+
+.analyzingCard {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  min-height: 218px;
+  border-radius: 24px;
+  padding: 22px 12px;
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.progressPhoto {
+  position: relative;
+  display: grid;
+  width: 98px;
+  height: 98px;
+  place-items: center;
+}
+
+.progressPhoto::before {
+  position: absolute;
+  inset: 0;
+  border: 3px solid var(--color-border-soft);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1.3s linear infinite;
+  content: '';
+}
+
+.progressPhoto img {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+}
+
+@keyframes spin {
+  to { transform: rotate(1turn); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressPhoto::before { animation: none; }
+}
+
+.analyzingCard h2,
+.waitingStatus h2 {
+  font-size: 18px;
+  font-weight: 850;
+  line-height: 26px;
+}
+
+.analyzingCard p,
+.waitingStatus p {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  border: 1px solid #f2ceae;
+  border-radius: 15px;
+  padding: 11px 13px;
+  background: #fcf3e4;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.noticeIcon {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  place-items: center;
+  border-radius: 50%;
+  background: #f6b541;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.notice strong {
+  display: block;
+  margin-bottom: 3px;
+  font-weight: 700;
+}
+
+.notice:not(.noticeMuted) p {
+  font-weight: 400;
+}
+
+.notice:not(.noticeMuted) p:only-child {
+  font-weight: 700;
+}
+
+.noticeMuted {
+  border-color: var(--color-border);
+  background: var(--color-skeleton);
+}
+
+.noticeMuted .noticeIcon {
+  background: var(--color-border);
+}
+
+.centered {
+  padding: 20px 0 14px;
+}
+
+.waitingStatus {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.waitingStatus .retryButton {
+  margin-top: 4px;
+}
+
+.clockBadge {
+  display: grid;
+  width: 96px;
+  height: 96px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--color-primary-strong);
+  background: var(--color-tag);
+}
+
+.clockBadge span {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border: 3px solid currentColor;
+  border-radius: 50%;
+}
+
+.clockBadge span::before {
+  position: absolute;
+  top: 5px;
+  left: 11px;
+  width: 8px;
+  height: 10px;
+  border-bottom: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  border-radius: 1px;
+  content: '';
+}
+
+.toast {
+  position: sticky;
+  bottom: calc(var(--tab-bar-height) + 10px);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  border-radius: 14px;
+  padding: 3px 10px 3px 14px;
+  color: var(--color-surface);
+  background: var(--color-dark);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.toast button {
+  min-height: 42px;
+  min-width: 44px;
+  border: 0;
+  padding: 6px;
+  color: #ffc182;
+  background: transparent;
+  white-space: nowrap;
+}
+
+.announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

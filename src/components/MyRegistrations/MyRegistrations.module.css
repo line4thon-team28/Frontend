@@ -1,0 +1,146 @@
+.page {
+  --page-bottom-space: 32px;
+}
+
+.headingRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 35px;
+  letter-spacing: -0.5px;
+}
+
+.greeting {
+  margin-top: 4px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.card {
+  padding: 16px;
+  box-shadow: 0 2px 5px rgb(60 40 20 / 5%);
+}
+
+.cardSummary {
+  grid-template-columns: clamp(64px, 25vw, 92px) minmax(0, 1fr);
+  gap: 14px;
+  border-radius: var(--radius-input);
+}
+
+.photo {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 18px;
+}
+
+.nameRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 7px;
+}
+
+.nameRow h2 {
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.petDescription {
+  margin-top: 5px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.cardMeta {
+  margin-top: 5px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.candidateCount {
+  color: var(--color-primary-strong);
+}
+
+.cardActions {
+  margin-top: 14px;
+}
+
+.cardActions .cardButton {
+  height: 44px;
+  padding: 0 8px;
+  box-shadow: none;
+}
+
+.cardSummary:focus-visible,
+.editHint a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.editHint {
+  margin-top: 14px;
+  color: var(--color-text-muted);
+  text-align: center;
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.editHint a:hover {
+  text-decoration: underline;
+}
+
+.foundCard {
+  opacity: 0.7;
+  box-shadow: none;
+}
+
+.foundCard .cardSummary {
+  grid-template-columns: 72px minmax(0, 1fr);
+}
+
+.foundCard .photo {
+  border-radius: 16px;
+  filter: grayscale(1);
+}
+
+.newLink {
+  gap: 8px;
+  min-height: 56px;
+  margin-top: 20px;
+  border-color: #d8cdbe;
+  border-style: dashed;
+  border-radius: 18px;
+  color: var(--color-text-secondary);
+  font-size: 15px;
+}
+
+.plus {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.emptyLink {
+  gap: 6px;
+  min-height: 50px;
+  padding-inline: 22px;
+  border-radius: var(--radius-button);
+  background: var(--color-primary);
+  color: var(--color-surface);
+  font-size: 15px;
+}

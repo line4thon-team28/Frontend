@@ -1,0 +1,4 @@
+.photo {
+  background: var(--color-tag);
+  object-fit: cover;
+}

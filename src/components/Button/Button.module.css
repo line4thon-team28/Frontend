@@ -40,6 +40,15 @@
   font-size: 14px;
 }
 
+.compact {
+  min-height: 40px;
+  padding: 6px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 19px;
+}
+
 .primary {
   background: var(--color-primary);
   color: #fff;
@@ -50,6 +59,11 @@
   background: var(--color-surface);
   border-color: var(--color-border);
   color: var(--color-text);
+}
+
+.soft {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
 }
 
 .dark {
