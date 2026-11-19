@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom'
 import useUnreadNotificationCount from '../../hooks/useUnreadNotificationCount'
 import styles from './NotificationBell.module.css'
 
-export default function NotificationBell() {
-  const unreadCount = useUnreadNotificationCount()
+export default function NotificationBell({ unreadCount: previewCount } = {}) {
+  const count = useUnreadNotificationCount(previewCount === undefined)
+  const unreadCount = previewCount ?? count
   const label = unreadCount > 0 ? `알림, 안 읽은 알림 ${unreadCount}개` : '알림'
 
   return (

@@ -55,7 +55,9 @@ export default function NotificationsPage() {
 
   const handleOpen = (notification) => {
     if (!notification.read) {
-      markNotificationRead(notification.notificationId).catch(() => {})
+      markNotificationRead(notification.notificationId)
+        .then(() => window.dispatchEvent(new Event('notification-read')))
+        .catch(() => {})
     }
   }
 
