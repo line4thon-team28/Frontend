@@ -16,7 +16,7 @@ export default function SelectBox({ options, placeholder, invalid, className = '
         ))}
       </select>
       <span className={styles.arrow} aria-hidden="true">
-        ∨
+        ⌵
       </span>
     </div>
   )
