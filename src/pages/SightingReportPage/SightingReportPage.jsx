@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createSighting } from '../../apis/sightings'
 import BackButton from '../../components/BackButton/BackButton'
@@ -7,24 +7,24 @@ import FormAlert from '../../components/FormAlert/FormAlert'
 import LocationField from '../../components/LocationField/LocationField'
 import SightingPhotoField from '../../components/SightingPhotoField/SightingPhotoField'
 import SightingResult from '../../components/SightingResult/SightingResult'
+import TextField from '../../components/TextField/TextField'
 import {
   EMPTY_MANUAL_REGION,
   MAX_SIGHTING_PHOTOS,
   SIGHTING_MEMO_MAX_LENGTH,
+  SIGHTING_PLACE_MAX_LENGTH,
+  SIGHTING_TRAIT_MAX_LENGTH,
   SPECIES_OPTIONS,
 } from '../../constants/sighting'
 import useAuth from '../../hooks/useAuth'
 import useCurrentRegion from '../../hooks/useCurrentRegion'
+import usePhotoPreviews from '../../hooks/usePhotoPreviews'
 import { formatClock, formatDayAndClock, toLocalDateTimeValue } from '../../utils/dateTime'
 import { resizeImage } from '../../utils/resizeImage'
 import styles from './SightingReportPage.module.css'
 
 const PHOTO_FORMAT_ERROR = 'JPG, PNG 사진만 올릴 수 있어요.'
 const PHOTO_LIMIT_ERROR = `사진은 최대 ${MAX_SIGHTING_PHOTOS}장까지 올릴 수 있어요.`
-
-function revokePhotos(photos) {
-  photos.forEach((photo) => URL.revokeObjectURL(photo.url))
-}
 
 function resolveLocation(currentRegion, isEditingLocation, manualRegion) {
   if (currentRegion.status === 'found' && !isEditingLocation) {
@@ -40,12 +40,15 @@ export default function SightingReportPage() {
   const navigate = useNavigate()
   const { isAuthenticated } = useAuth()
   const currentRegion = useCurrentRegion()
-  const photoId = useRef(0)
-  const photosRef = useRef([])
-
-  const [photos, setPhotos] = useState([])
+  const { photos, addPhotos, removePhoto, clearPhotos } = usePhotoPreviews({
+    limit: MAX_SIGHTING_PHOTOS,
+    prepareFile: resizeImage,
+  })
   const [photoError, setPhotoError] = useState('')
   const [species, setSpecies] = useState('')
+  const [breed, setBreed] = useState('')
+  const [color, setColor] = useState('')
+  const [place, setPlace] = useState('')
   const [isEditingLocation, setIsEditingLocation] = useState(false)
   const [manualRegion, setManualRegion] = useState(EMPTY_MANUAL_REGION)
   const [seenAt, setSeenAt] = useState(() => new Date())
@@ -56,12 +59,6 @@ export default function SightingReportPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submission, setSubmission] = useState(null)
 
-  useEffect(() => {
-    photosRef.current = photos
-  }, [photos])
-
-  useEffect(() => () => revokePhotos(photosRef.current), [])
-
   const homePath = isAuthenticated ? '/home' : '/start'
   const location = resolveLocation(currentRegion, isEditingLocation, manualRegion)
   const hasRequiredMedia = photos.length > 0 && Boolean(location)
@@ -70,34 +67,17 @@ export default function SightingReportPage() {
   const handleAddPhotos = async (files) => {
     setPhotoError('')
     setSubmitError('')
-    const remaining = MAX_SIGHTING_PHOTOS - photos.length
-    const accepted = files.slice(0, remaining)
-    const results = await Promise.allSettled(accepted.map((file) => resizeImage(file)))
-    const added = results
-      .filter((result) => result.status === 'fulfilled')
-      .map((result) => {
-        photoId.current += 1
-        return { id: photoId.current, file: result.value, url: URL.createObjectURL(result.value) }
-      })
-
-    setPhotos((prev) => {
-      const next = [...prev, ...added]
-      revokePhotos(next.slice(MAX_SIGHTING_PHOTOS))
-      return next.slice(0, MAX_SIGHTING_PHOTOS)
-    })
-    if (added.length < accepted.length) {
+    const result = await addPhotos(files)
+    if (result?.rejected) {
       setPhotoError(PHOTO_FORMAT_ERROR)
-    } else if (files.length > remaining) {
+    } else if (result?.limitReached) {
       setPhotoError(PHOTO_LIMIT_ERROR)
     }
   }
 
-  const handleRemovePhoto = (id) => {
+  const handleRemovePhoto = (url) => {
     setPhotoError('')
-    setPhotos((prev) => {
-      revokePhotos(prev.filter((photo) => photo.id === id))
-      return prev.filter((photo) => photo.id !== id)
-    })
+    removePhoto(url)
   }
 
   const handleSeenAtFocus = (event) => {
@@ -130,7 +110,10 @@ export default function SightingReportPage() {
         sido: location.sido,
         sigungu: location.sigungu,
         seenAt: toLocalDateTimeValue(seenAt),
-        memo: memo.trim(),
+        place,
+        memo,
+        breed,
+        color,
       })
       setSubmission({ result, photoUrl: photos[0].url, placeLabel: location.label, seenAt })
       window.scrollTo(0, 0)
@@ -142,10 +125,12 @@ export default function SightingReportPage() {
   }
 
   const handleReportAgain = () => {
-    revokePhotos(photos)
-    setPhotos([])
+    clearPhotos()
     setPhotoError('')
     setSpecies('')
+    setBreed('')
+    setColor('')
+    setPlace('')
     setMemo('')
     setSeenAt(new Date())
     setIsSeenAtEdited(false)
@@ -209,7 +194,10 @@ export default function SightingReportPage() {
                     name="species"
                     value={option.value}
                     checked={species === option.value}
-                    onChange={() => setSpecies(option.value)}
+                    onChange={() => {
+                      setSpecies(option.value)
+                      setBreed('')
+                    }}
                     className={styles.hiddenInput}
                   />
                   {option.label}
@@ -218,6 +206,23 @@ export default function SightingReportPage() {
             </div>
           </fieldset>
 
+          <div className={styles.row}>
+            <TextField
+              label={<>품종 <span className={styles.optional}>선택</span></>}
+              name="breed"
+              value={breed}
+              onChange={(event) => setBreed(event.target.value)}
+              maxLength={SIGHTING_TRAIT_MAX_LENGTH}
+            />
+            <TextField
+              label={<>털색 <span className={styles.optional}>선택</span></>}
+              name="color"
+              value={color}
+              onChange={(event) => setColor(event.target.value)}
+              maxLength={SIGHTING_TRAIT_MAX_LENGTH}
+            />
+          </div>
+
           <LocationField
             currentRegion={currentRegion}
             isEditing={isEditingLocation}
@@ -225,6 +230,15 @@ export default function SightingReportPage() {
             onUseCurrent={() => setIsEditingLocation(false)}
             manualValue={manualRegion}
             onManualChange={setManualRegion}
+          />
+
+          <TextField
+            label={<>상세 목격 장소 <span className={styles.optional}>선택</span></>}
+            name="place"
+            value={place}
+            onChange={(event) => setPlace(event.target.value)}
+            maxLength={SIGHTING_PLACE_MAX_LENGTH}
+            placeholder="예: 공원 입구, 편의점 앞"
           />
 
           <div className={styles.row}>

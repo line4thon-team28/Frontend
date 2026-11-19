@@ -27,12 +27,12 @@ export default function SightingPhotoField({ photos, max, onAdd, onRemove, error
       </div>
       <ul className={styles.slots}>
         {photos.map((photo, index) => (
-          <li key={photo.id} className={styles.slot}>
+          <li key={photo.url} className={styles.slot}>
             <img src={photo.url} alt={`제보 사진 ${index + 1}`} className={styles.photo} />
             <button
               type="button"
               className={styles.remove}
-              onClick={() => onRemove(photo.id)}
+              onClick={() => onRemove(photo.url)}
               aria-label={`제보 사진 ${index + 1} 삭제`}
             >
               ×
