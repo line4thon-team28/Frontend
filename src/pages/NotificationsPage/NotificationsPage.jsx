@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { fetchMyLostPets } from '../../apis/lostPets'
 import { fetchNotifications, markNotificationRead } from '../../apis/notifications'
+import { fetchMatches, imageUrl } from '../../apis/pets'
 import bellIcon from '../../assets/icons/bell.svg'
 import errorIcon from '../../assets/icons/error.svg'
 import refreshIcon from '../../assets/icons/refresh.svg'
@@ -11,10 +12,29 @@ import StatusView from '../../components/StatusView/StatusView'
 import { getDayGroup } from '../../utils/dateTime'
 import styles from './NotificationsPage.module.css'
 
-const SKELETON_COUNT = 4
+const SKELETON_GROUPS = 2
+const SKELETON_CARDS_PER_GROUP = 2
+const NETWORK_ERROR_DESCRIPTION = '인터넷 연결을 확인하고\n다시 시도해 주세요.'
 
-function toPhotoMap(pets) {
-  return Object.fromEntries(pets.filter((pet) => pet.thumbnail).map((pet) => [pet.lostPetId, pet.thumbnail]))
+function toPetMap(pets) {
+  return Object.fromEntries(pets.map((pet) => [pet.lostPetId, { name: pet.name, photo: imageUrl(pet.thumbnail) }]))
+}
+
+function toMatchMap(matches) {
+  return Object.fromEntries(matches.map((match) => [match.matchId, match]))
+}
+
+async function loadNotifications() {
+  const [data, pets] = await Promise.all([fetchNotifications(), fetchMyLostPets().catch(() => [])])
+  const petIds = [...new Set(data.items.map((item) => item.lostPetId))]
+  const matchLists = await Promise.all(
+    petIds.map((petId) =>
+      fetchMatches(petId, 'similarity')
+        .then((response) => response.items ?? [])
+        .catch(() => []),
+    ),
+  )
+  return { items: data.items, pets: toPetMap(pets), matches: toMatchMap(matchLists.flat()) }
 }
 
 function groupByDay(notifications) {
@@ -50,11 +70,8 @@ export default function NotificationsPage() {
 
   useEffect(() => {
     let ignore = false
-    const photosRequest = fetchMyLostPets()
-      .then(toPhotoMap)
-      .catch(() => ({}))
-    Promise.all([fetchNotifications(), photosRequest])
-      .then(([data, photos]) => !ignore && setResult({ token: reloadToken, items: data.items, photos }))
+    loadNotifications()
+      .then((data) => !ignore && setResult({ token: reloadToken, ...data }))
       .catch((error) => !ignore && setResult({ token: reloadToken, error }))
     return () => {
       ignore = true
@@ -74,9 +91,16 @@ export default function NotificationsPage() {
   const renderBody = () => {
     if (isLoading) {
       return (
-        <div className={styles.list} aria-busy="true" aria-label="알림을 불러오는 중">
-          {Array.from({ length: SKELETON_COUNT }, (_, index) => (
-            <NotificationSkeleton key={index} />
+        <div className={styles.skeletonGroups} aria-busy="true" aria-label="알림을 불러오는 중">
+          {Array.from({ length: SKELETON_GROUPS }, (_, groupIndex) => (
+            <div key={groupIndex} className={styles.group} aria-hidden="true">
+              <span className={`${styles.skeletonBlock} ${styles.skeletonHeading}`} />
+              <div className={styles.list}>
+                {Array.from({ length: SKELETON_CARDS_PER_GROUP }, (_, index) => (
+                  <NotificationSkeleton key={index} />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       )
@@ -89,7 +113,7 @@ export default function NotificationsPage() {
             icon={errorIcon}
             tone="error"
             title="알림을 불러오지 못했어요"
-            description={result.error.message}
+            description={result.error.code === 'NETWORK_ERROR' ? NETWORK_ERROR_DESCRIPTION : result.error.message}
             action={
               <Button variant="dark" size="medium" icon={refreshIcon} onClick={() => setReloadToken((token) => token + 1)}>
                 다시 시도
@@ -125,7 +149,8 @@ export default function NotificationsPage() {
             <li key={notification.notificationId}>
               <NotificationCard
                 notification={notification}
-                photo={result.photos[notification.lostPetId]}
+                pet={result.pets[notification.lostPetId]}
+                match={result.matches[notification.matchId]}
                 onOpen={handleOpen}
               />
             </li>
