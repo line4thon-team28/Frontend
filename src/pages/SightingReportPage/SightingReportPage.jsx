@@ -272,7 +272,7 @@ export default function SightingReportPage() {
                 value={memo}
                 onChange={(event) => setMemo(event.target.value)}
                 maxLength={SIGHTING_MEMO_MAX_LENGTH}
-                placeholder="빨간 목줄, 사람 경계"
+                placeholder={`${SIGHTING_MEMO_MAX_LENGTH}자 이내`}
               />
             </div>
           </div>
