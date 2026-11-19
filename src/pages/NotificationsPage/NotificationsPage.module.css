@@ -51,6 +51,25 @@
   color: var(--color-text);
 }
 
+.more {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.moreError {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 17px;
+  color: var(--color-error);
+  text-align: center;
+}
+
+.moreButton {
+  width: 100%;
+  color: var(--color-text);
+}
+
 .skeletonGroups {
   display: flex;
   flex-direction: column;

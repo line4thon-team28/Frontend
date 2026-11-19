@@ -9,6 +9,7 @@ import refreshIcon from '../../assets/icons/refresh.svg'
 import Button from '../../components/Button/Button'
 import NotificationCard from '../../components/NotificationCard/NotificationCard'
 import StatusView from '../../components/StatusView/StatusView'
+import { NETWORK_ERROR_MESSAGE } from '../../constants/errorMessages'
 import { getDayGroup } from '../../utils/dateTime'
 import styles from './NotificationsPage.module.css'
 
@@ -24,9 +25,16 @@ function toMatchMap(matches) {
   return Object.fromEntries(matches.map((match) => [match.matchId, match]))
 }
 
-async function loadNotifications() {
-  const [data, pets] = await Promise.all([fetchNotifications(), fetchMyLostPets().catch(() => [])])
-  const petIds = [...new Set(data.items.map((item) => item.lostPetId))]
+function getPetIds(notifications) {
+  return [...new Set(notifications.map((item) => item.lostPetId))]
+}
+
+function mergeNotifications(current, next) {
+  const seen = new Set(current.map((item) => item.notificationId))
+  return [...current, ...next.filter((item) => !seen.has(item.notificationId))]
+}
+
+async function fetchMatchMap(petIds) {
   const matchLists = await Promise.all(
     petIds.map((petId) =>
       fetchMatches(petId, 'similarity')
@@ -34,7 +42,24 @@ async function loadNotifications() {
         .catch(() => []),
     ),
   )
-  return { items: data.items, pets: toPetMap(pets), matches: toMatchMap(matchLists.flat()) }
+  return toMatchMap(matchLists.flat())
+}
+
+async function loadFirstPage() {
+  const [data, pets] = await Promise.all([fetchNotifications({ page: 0 }), fetchMyLostPets().catch(() => [])])
+  const petIds = getPetIds(data.items)
+  return {
+    items: data.items,
+    page: 0,
+    hasNext: data.hasNext,
+    pets: toPetMap(pets),
+    matches: await fetchMatchMap(petIds),
+    matchedPetIds: petIds,
+  }
+}
+
+function toErrorText(error) {
+  return error.code === 'NETWORK_ERROR' ? NETWORK_ERROR_MESSAGE : error.message
 }
 
 function groupByDay(notifications) {
@@ -67,10 +92,11 @@ export default function NotificationsPage() {
   const navigate = useNavigate()
   const [reloadToken, setReloadToken] = useState(0)
   const [result, setResult] = useState(null)
+  const [more, setMore] = useState({ loading: false, error: '' })
 
   useEffect(() => {
     let ignore = false
-    loadNotifications()
+    loadFirstPage()
       .then((data) => !ignore && setResult({ token: reloadToken, ...data }))
       .catch((error) => !ignore && setResult({ token: reloadToken, error }))
     return () => {
@@ -83,6 +109,37 @@ export default function NotificationsPage() {
       markNotificationRead(notification.notificationId)
         .then(() => window.dispatchEvent(new Event('notification-read')))
         .catch(() => {})
+    }
+  }
+
+  const handleRetry = () => {
+    setMore({ loading: false, error: '' })
+    setReloadToken((token) => token + 1)
+  }
+
+  const handleLoadMore = async () => {
+    if (more.loading) return
+    const token = reloadToken
+    setMore({ loading: true, error: '' })
+    try {
+      const data = await fetchNotifications({ page: result.page + 1 })
+      const newPetIds = getPetIds(data.items).filter((petId) => !result.matchedPetIds.includes(petId))
+      const matches = await fetchMatchMap(newPetIds)
+      setResult((prev) =>
+        prev.token !== token
+          ? prev
+          : {
+              ...prev,
+              items: mergeNotifications(prev.items, data.items),
+              page: prev.page + 1,
+              hasNext: data.hasNext,
+              matches: { ...prev.matches, ...matches },
+              matchedPetIds: [...prev.matchedPetIds, ...newPetIds],
+            },
+      )
+      setMore({ loading: false, error: '' })
+    } catch (error) {
+      setMore({ loading: false, error: toErrorText(error) })
     }
   }
 
@@ -115,7 +172,7 @@ export default function NotificationsPage() {
             title="알림을 불러오지 못했어요"
             description={result.error.code === 'NETWORK_ERROR' ? NETWORK_ERROR_DESCRIPTION : result.error.message}
             action={
-              <Button variant="dark" size="medium" icon={refreshIcon} onClick={() => setReloadToken((token) => token + 1)}>
+              <Button variant="dark" size="medium" icon={refreshIcon} onClick={handleRetry}>
                 다시 시도
               </Button>
             }
@@ -141,23 +198,45 @@ export default function NotificationsPage() {
       )
     }
 
-    return groupByDay(result.items).map((group) => (
-      <section key={group.label} className={styles.group} aria-label={group.label}>
-        <h2 className={styles.groupTitle}>{group.label}</h2>
-        <ul className={styles.list}>
-          {group.items.map((notification) => (
-            <li key={notification.notificationId}>
-              <NotificationCard
-                notification={notification}
-                pet={result.pets[notification.lostPetId]}
-                match={result.matches[notification.matchId]}
-                onOpen={handleOpen}
-              />
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))
+    return (
+      <>
+        {groupByDay(result.items).map((group) => (
+          <section key={group.label} className={styles.group} aria-label={group.label}>
+            <h2 className={styles.groupTitle}>{group.label}</h2>
+            <ul className={styles.list}>
+              {group.items.map((notification) => (
+                <li key={notification.notificationId}>
+                  <NotificationCard
+                    notification={notification}
+                    pet={result.pets[notification.lostPetId]}
+                    match={result.matches[notification.matchId]}
+                    onOpen={handleOpen}
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+        {result.hasNext && (
+          <div className={styles.more}>
+            {more.error && (
+              <p className={styles.moreError} role="alert">
+                {more.error}
+              </p>
+            )}
+            <Button
+              variant="outline"
+              size="medium"
+              className={styles.moreButton}
+              disabled={more.loading}
+              onClick={handleLoadMore}
+            >
+              {more.loading ? '불러오는 중' : '알림 더 보기'}
+            </Button>
+          </div>
+        )}
+      </>
+    )
   }
 
   return (
