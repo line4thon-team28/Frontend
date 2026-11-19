@@ -1,22 +1,35 @@
+import { useState } from 'react'
+import { fetchPets, updatePet } from '../apis/pets'
+import usePetRequest from './usePetRequest'
 import useAuth from './useAuth'
-import usePawPose from '../mocks/usePawPose'
-import useMockScenario from '../mocks/useMockScenario'
-
-export const PREVIEW_OPTIONS = { loading: '35 로딩', empty: '36 빈 상태', error: '37 조회 오류' }
 
 export default function useMyRegistrationsPage() {
-  const { pets, candidates, feedback, markFound } = usePawPose()
+  const live = usePetRequest(fetchPets)
+  const [action, setAction] = useState(null)
+  const pets = live.data ?? []
+
+  async function markFound(id) {
+    if (action?.busy) return
+    setAction({ busy: true })
+    try {
+      await updatePet(id, { status: 'FOUND' })
+      live.reload()
+      setAction(null)
+    } catch (error) {
+      setAction({ error: error.message })
+    }
+  }
   const { user } = useAuth()
-  const { scenario, setScenario } = useMockScenario()
-  const loading = scenario === 'loading'
-  const error = scenario === 'error'
-  const empty = scenario === 'empty' || pets.length === 0
+  const loading = live.loading
+  const error = live.error
+  const empty = pets.length === 0
   const nickname = user?.nickname || '민지'
   const searchingPets = pets.filter((pet) => pet.status !== 'found')
   const foundPets = pets.filter((pet) => pet.status === 'found')
 
   return {
-    candidates, feedback, markFound, loading, error, empty, nickname, searchingPets, foundPets,
-    retry: () => setScenario(''),
+    markFound, loading, error, empty, nickname, searchingPets, foundPets,
+    retry: live.reload,
+    actionError: action?.error, busy: action?.busy,
   }
 }

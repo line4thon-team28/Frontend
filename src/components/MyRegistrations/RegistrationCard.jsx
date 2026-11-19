@@ -7,15 +7,13 @@ import { candidatesPath, editRegistrationPath } from '../../routes/petPaths'
 import { formatPetDate, formatPetDescription } from '../../utils/formatPetInfo'
 import styles from './MyRegistrations.module.css'
 
-export default function RegistrationCard({ pet, candidates, feedback, onFound }) {
+export default function RegistrationCard({ pet, onFound, busy }) {
   const found = pet.status === 'found'
-  const visibleCandidates = candidates.filter((candidate) => feedback?.[candidate.id] !== 'hidden')
-  const sightingCount = visibleCandidates.filter((candidate) => candidate.type === 'sighting').length
   const editPath = editRegistrationPath(pet.id)
   const lostDate = formatPetDate(pet.lostDate)
   const foundDate = formatPetDate(pet.foundDate)
   const cardMeta = found
-    ? [`${foundDate} 재회`.trim(), '매칭·알림 중단']
+    ? [foundDate && `${foundDate} 재회`, '매칭·알림 중단']
     : [pet.district || pet.city, lostDate && `${lostDate} 실종`, `${pet.photoCount}장`]
   const summary = (
     <>
@@ -29,7 +27,7 @@ export default function RegistrationCard({ pet, candidates, feedback, onFound })
         <p className={styles.cardMeta}>{cardMeta.filter(Boolean).join(' · ')}</p>
         {!found && (
           <p className={styles.cardMeta}>
-            <strong className={styles.candidateCount}>후보 {visibleCandidates.length}건</strong> · 목격 {sightingCount}건
+            <strong className={styles.candidateCount}>후보 {pet.matchCount ?? 0}건</strong>
           </p>
         )}
       </div>
@@ -53,7 +51,7 @@ export default function RegistrationCard({ pet, candidates, feedback, onFound })
         <Link className={`${layout.actionLink} ${layout.outlineLink}`} to={candidatesPath(pet.id)}>
           후보 보기
         </Link>
-        <Button size="medium" className={styles.cardButton} onClick={() => onFound(pet.id)}>찾았어요</Button>
+        <Button size="medium" className={styles.cardButton} disabled={busy} onClick={() => onFound(pet.id)}>찾았어요</Button>
       </div>
       <p className={styles.editHint}>
         <Link to={editPath}>특징·연락처만 수정할 수 있어요</Link>

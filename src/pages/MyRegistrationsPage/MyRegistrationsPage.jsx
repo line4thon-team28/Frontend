@@ -6,10 +6,9 @@ import Button from '../../components/Button/Button'
 import PetCardSkeleton from '../../components/PetCardSkeleton/PetCardSkeleton'
 import StatusView from '../../components/StatusView/StatusView'
 import layout from '../../layouts/PetPageLayout.module.css'
-import MockScenarioSelect from '../../mocks/MockScenarioSelect'
 import { petPaths } from '../../routes/petPaths'
 import RegistrationCard from '../../components/MyRegistrations/RegistrationCard'
-import useMyRegistrationsPage, { PREVIEW_OPTIONS } from '../../hooks/useMyRegistrationsPage'
+import useMyRegistrationsPage from '../../hooks/useMyRegistrationsPage'
 import styles from '../../components/MyRegistrations/MyRegistrations.module.css'
 
 export { default as EditRegistrationPage } from '../EditRegistrationPage/EditRegistrationPage'
@@ -35,7 +34,7 @@ function NewRegistrationLink({ empty = false }) {
 }
 
 export default function MyRegistrationsPage() {
-  const { candidates, feedback, markFound, loading, error, empty, nickname, searchingPets, foundPets, retry } = useMyRegistrationsPage()
+  const { markFound, loading, error, empty, nickname, searchingPets, foundPets, retry, actionError, busy } = useMyRegistrationsPage()
 
   let content
   if (loading) {
@@ -69,7 +68,7 @@ export default function MyRegistrationsPage() {
         <ul className={styles.cards}>
           {[...searchingPets, ...foundPets].map((pet) => (
             <li key={pet.id}>
-              <RegistrationCard pet={pet} candidates={candidates} feedback={feedback[pet.id]} onFound={markFound} />
+              <RegistrationCard pet={pet} onFound={markFound} busy={busy} />
             </li>
           ))}
         </ul>
@@ -83,12 +82,12 @@ export default function MyRegistrationsPage() {
       <header>
         <div className={styles.headingRow}>
           <h1 className={styles.heading}>내 등록</h1>
-          <MockScenarioSelect label="내 등록 화면 미리보기" options={PREVIEW_OPTIONS} />
         </div>
         <p className={styles.greeting}>
           {nickname}님{!loading && !error && !empty && ` · 찾는 중 ${searchingPets.length} · 찾음 ${foundPets.length}`}
         </p>
       </header>
+      {actionError && <p role="alert">{actionError}</p>}
       {content}
     </div>
   )

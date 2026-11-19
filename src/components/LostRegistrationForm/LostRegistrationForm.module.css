@@ -349,20 +349,6 @@
   background: var(--rdp-accent-background-color);
 }
 
-.contactHelp {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-}
-
-.contactHelp img {
-  width: 13px;
-  height: 13px;
-  flex: 0 0 auto;
-  margin-top: 2px;
-  opacity: 0.75;
-}
-
 .footer {
   margin: auto calc(-1 * var(--page-padding-x)) 0;
   padding: 10px var(--page-padding-x) calc(20px + env(safe-area-inset-bottom, 0px));

@@ -1,20 +1,33 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import usePawPose from '../mocks/usePawPose'
+import { fetchPet, updatePet } from '../apis/pets'
+import usePetRequest from './usePetRequest'
 import { petPaths } from '../routes/petPaths'
 
 export default function useEditRegistrationPage() {
   const { petId } = useParams()
   const navigate = useNavigate()
-  const { pets, updatePet } = usePawPose()
-  const pet = pets.find((item) => item.id === petId)
+  const load = useCallback(() => fetchPet(petId), [petId])
+  const live = usePetRequest(load)
+  const pet = live.data
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState('')
 
-  function save(changes) {
-    updatePet(pet.id, changes)
-    navigate(petPaths.registrations, { replace: true })
+  async function save(changes) {
+    if (saving) return
+    setSaving(true)
+    setSaveError('')
+    try {
+      await updatePet(pet.id, changes)
+      navigate(petPaths.registrations, { replace: true })
+    } catch (error) {
+      setSaveError(error.message)
+    } finally {
+      setSaving(false)
+    }
   }
 
-  return { pet, save }
+  return { pet, save, saving, saveError, loading: live.loading, error: live.error, retry: live.reload }
 }
 
 export function useEditRegistrationForm(pet, onSave) {

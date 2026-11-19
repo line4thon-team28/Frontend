@@ -32,7 +32,7 @@ function LockedInfo({ pet }) {
   )
 }
 
-export default function EditRegistrationForm({ pet, onSave }) {
+export default function EditRegistrationForm({ pet, onSave, saving, saveError }) {
   const { features, changeFeatures, submit } = useEditRegistrationForm(pet, onSave)
 
   return (
@@ -44,7 +44,8 @@ export default function EditRegistrationForm({ pet, onSave }) {
       <LockedInfo pet={pet} />
       <PetFeaturesField id="registration-features" value={features} onChange={changeFeatures} variant="edit" />
       <TextField label="연락처" name="contact" type="tel" autoComplete="tel" defaultValue={pet.contact || ''} />
-      <div className={styles.saveAction}><Button type="submit" className={styles.saveButton}>저장하기</Button></div>
+      {saveError && <p role="alert">{saveError}</p>}
+      <div className={styles.saveAction}><Button type="submit" disabled={saving} className={styles.saveButton}>저장하기</Button></div>
     </form>
   )
 }

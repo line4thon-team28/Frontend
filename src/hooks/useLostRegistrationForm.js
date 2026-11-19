@@ -1,55 +1,38 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import samplePhoto from '../assets/images/pet-a.webp'
-import legalDongRegions from '../data/legal-dong-regions.json'
-import usePawPose from '../mocks/usePawPose'
+import { createLostPet, fetchBreeds } from '../apis/pets'
 import { candidatesPath } from '../routes/petPaths'
+import usePhotoPreviews from './usePhotoPreviews'
 
 export const PHOTO_LIMIT = 5
-export const BREEDS = {
-  개: ['믹스', '푸들', '포메라니안', '말티즈', '시바견', '진돗개'],
-  고양이: ['코리안 숏헤어', '러시안 블루', '샴', '페르시안', '믹스'],
-  기타: [],
-}
-const { provinces, districtsByProvinceCode } = legalDongRegions
 const EMPTY_FORM = {
-  species: '고양이', breed: '', sex: '', coat: '', lostDate: '',
-  provinceCode: '1100000000', districtCode: '', features: '', contact: '',
-}
-const CONTACT_PREVIEW = {
-  ...EMPTY_FORM,
-  breed: '코리안 숏헤어', sex: '암컷', coat: '치즈', lostDate: '2026-11-05',
-  districtCode: '1129000000', features: '치즈 태비, 빨간 목줄, 왼쪽 귀 끝 살짝 접힘', contact: '010-1234-5678',
+  species: '고양이', name: '', breed: '', sex: '', coat: '', lostDate: '',
+  provinceCode: '', districtCode: '', place: '', features: '', contact: '',
 }
 export const FIELD_IDS = { photos: 'lost-photo', lostDate: 'lost-date', districtCode: 'lost-district' }
-const PREVIEW_ERRORS = { photos: true, lostDate: true, districtCode: true }
 
-export default function useLostRegistrationForm(scenario) {
+export default function useLostRegistrationForm() {
   const navigate = useNavigate()
-  const { registerPet } = usePawPose()
-  const [values, setValues] = useState(() => scenario === 'contact' ? CONTACT_PREVIEW : EMPTY_FORM)
-  const [photos, setPhotos] = useState(() => scenario === 'contact' ? [{ url: samplePhoto, name: '예시 사진' }] : [])
-  const [errors, setErrors] = useState(() => scenario === 'error' ? PREVIEW_ERRORS : {})
+  const [values, setValues] = useState(EMPTY_FORM)
+  const { photos, addPhotos: addPreviews, removePhoto } = usePhotoPreviews({ limit: PHOTO_LIMIT })
+  const [errors, setErrors] = useState({})
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [breedResult, setBreedResult] = useState(null)
+  const species = values.species
+
+  useEffect(() => {
+    let active = true
+    fetchBreeds(species)
+      .then(items => { if (active) setBreedResult({ species, items: items.map(item => item.name) }) })
+      .catch(() => { if (active) setBreedResult({ species, items: [] }) })
+    return () => { active = false }
+  }, [species])
+
   const contactInput = useRef(null)
-  const previewUrls = useRef(new Set())
-
-  useEffect(() => {
-    const urls = previewUrls.current
-    return () => {
-      for (const url of urls) URL.revokeObjectURL(url)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (scenario === 'contact') contactInput.current?.focus()
-  }, [scenario])
 
   const missingCount = Object.values(errors).filter(Boolean).length
   const { photos: invalidPhotos, lostDate: invalidDate, districtCode: invalidDistrict } = errors
-  const province = provinces.find(({ code }) => code === values.provinceCode)
-  const districts = districtsByProvinceCode[values.provinceCode] ?? []
-  const district = districts.find(({ code }) => code === values.districtCode)
-  const needsDistrict = districts.length > 0
 
   function updateValue(event) {
     const { name, value } = event.target
@@ -69,38 +52,23 @@ export default function useLostRegistrationForm(scenario) {
     updateField('lostDate', date)
   }
 
-  function changeProvince(event) {
-    const provinceCode = event.target.value
-    setValues(previous => ({ ...previous, provinceCode, districtCode: '' }))
-    if (!districtsByProvinceCode[provinceCode]?.length && invalidDistrict) {
-      setErrors(previous => ({ ...previous, districtCode: false }))
-    }
-  }
-
-  function addPhotos(event) {
-    const files = Array.from(event.target.files).filter(file => file.type.startsWith('image/'))
-    const added = files.slice(0, PHOTO_LIMIT - photos.length).map(file => {
-      const url = URL.createObjectURL(file)
-      previewUrls.current.add(url)
-      return { url, name: file.name }
-    })
-
-    setPhotos([...photos, ...added])
-    if (added.length > 0 && invalidPhotos) setErrors(previous => ({ ...previous, photos: false }))
+  async function addPhotos(event) {
+    const selected = Array.from(event.target.files)
     event.target.value = ''
+    const files = selected.filter(file => ['image/jpeg', 'image/png'].includes(file.type) && file.size <= 10 * 1024 * 1024)
+    setSubmitError(files.length === selected.length ? '' : '실제 등록에는 10MB 이하의 JPG 또는 PNG 사진을 올려 주세요.')
+    const result = await addPreviews(files)
+    if (result?.added && invalidPhotos) setErrors(previous => ({ ...previous, photos: false }))
   }
 
-  function removePhoto(url) {
-    if (previewUrls.current.delete(url)) URL.revokeObjectURL(url)
-    setPhotos(photos.filter(photo => photo.url !== url))
-  }
-
-  function submit(event) {
+  async function submit(event) {
     event.preventDefault()
+    if (submitting) return
+    setSubmitError('')
     const missing = {
       photos: photos.length === 0,
       lostDate: !values.lostDate,
-      districtCode: !province || (needsDistrict && !district),
+      districtCode: !values.provinceCode || !values.districtCode.trim(),
     }
     const firstMissing = Object.keys(missing).find(field => missing[field])
     if (firstMissing) {
@@ -109,17 +77,27 @@ export default function useLostRegistrationForm(scenario) {
       return
     }
 
-    const photo = photos[0].url
-    const pet = registerPet({
-      ...values, city: province.name, district: district?.name ?? '',
-      name: '우리 아이', photo, photoCount: photos.length,
-    })
-    previewUrls.current.delete(photo)
-    navigate(candidatesPath(pet.id))
+    const name = values.name.trim() || '우리 아이'
+
+    setSubmitting(true)
+    try {
+      const { lostPetId } = await createLostPet({ ...values, name }, photos)
+      navigate(candidatesPath(lostPetId))
+    } catch (error) {
+      setSubmitError(error.message)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return {
-    values, photos, missingCount, invalidPhotos, invalidDate, invalidDistrict, provinces, districts, needsDistrict,
-    contactInput, updateValue, changeSpecies, changeDate, changeProvince, addPhotos, removePhoto, submit,
+    values, photos, missingCount, invalidPhotos, invalidDate, invalidDistrict,
+    submitting, submitError,
+    breeds: breedResult?.species === species ? breedResult.items : [],
+    changeRegion: ({ sidoCode, sigungu }) => {
+      setValues(previous => ({ ...previous, provinceCode: sidoCode, districtCode: sigungu }))
+      if (sigungu.trim()) setErrors(previous => ({ ...previous, districtCode: false }))
+    },
+    contactInput, updateValue, changeSpecies, changeDate, addPhotos, removePhoto, submit,
   }
 }
