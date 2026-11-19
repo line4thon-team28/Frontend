@@ -3,7 +3,7 @@ import { fetchDistricts, fetchProvinces } from '../../apis/regions'
 import SelectBox from '../SelectBox/SelectBox'
 import styles from './LocationField.module.css'
 
-export default function ManualRegionPicker({ value, onChange }) {
+export default function ManualRegionPicker({ value, onChange, districtId, invalid }) {
   const [provinceToken, setProvinceToken] = useState(0)
   const [provinceResult, setProvinceResult] = useState(null)
   const [districtToken, setDistrictToken] = useState(0)
@@ -69,6 +69,8 @@ export default function ManualRegionPicker({ value, onChange }) {
     if (districts?.isManual) {
       return (
         <input
+          id={districtId}
+          aria-invalid={invalid || undefined}
           className={styles.districtInput}
           value={value.sigungu}
           onChange={handleDistrictChange}
@@ -80,6 +82,8 @@ export default function ManualRegionPicker({ value, onChange }) {
     }
     return (
       <SelectBox
+        id={districtId}
+        invalid={invalid}
         aria-label="시군구"
         value={value.sigungu}
         onChange={handleDistrictChange}
