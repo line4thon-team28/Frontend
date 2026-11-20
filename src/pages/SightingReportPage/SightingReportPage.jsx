@@ -166,7 +166,7 @@ export default function SightingReportPage() {
         <p className={styles.headerTitle}>목격 제보</p>
       </header>
 
-      <h1 className={styles.title}>사진과 위치만 남겨주세요</h1>
+      <h1 className={styles.title}>목격한 아이를 알려주세요</h1>
       <p className={styles.description}>로그인 없이 제보할 수 있어요. 제보자 정보는 저장하지 않아요.</p>
 
       <form className={styles.form} onSubmit={handleSubmit} noValidate>
