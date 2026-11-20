@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { fetchMatches, fetchNotice, fetchPet, imageUrl, saveFeedback, toCandidate } from '../apis/pets'
+import { formatPetAge } from '../utils/formatPetInfo'
 import { candidatesPath } from '../routes/petPaths'
 import usePetRequest from './usePetRequest'
 
@@ -25,7 +26,7 @@ export default function useLiveCandidateDetail() {
     const notice = await fetchNotice(selected.noticeId)
     return { pet, candidate: {
       ...selected, photo: imageUrl(notice.imageUrl) || selected.photo, species: notice.species, breed: notice.breed,
-      sex: notice.sex, coat: notice.color, age: notice.age, weight: notice.weight, announcementId: notice.noticeNo,
+      sex: notice.sex, coat: notice.color, age: formatPetAge(notice.age), weight: notice.weight, announcementId: notice.noticeNo,
       reportedAt: notice.happenDate, description: [notice.specialMark, notice.happenPlace].filter(Boolean).join(' · '),
       deadlineDays: notice.noticeEndDate ? notice.deadline?.daysLeft : null, deadlineDate: notice.noticeEndDate,
       urgent: notice.deadline?.urgent, closed: notice.deadline?.closed, closedMessage: notice.deadline?.closedMessage,

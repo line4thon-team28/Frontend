@@ -1,4 +1,4 @@
-import { formatPetDescription } from '../../utils/formatPetInfo'
+import { formatPetAge, formatPetDescription } from '../../utils/formatPetInfo'
 import layout from '../../layouts/PetPageLayout.module.css'
 import styles from './CandidateDetail.module.css'
 
@@ -28,7 +28,7 @@ function DeadlineCard({ candidate, closed }) {
 export default function ShelterDetails({ candidate, closed, mapUrl, phone, children }) {
   const facts = [
     ['색', candidate.coat],
-    ['나이', candidate.age],
+    ['나이', formatPetAge(candidate.age)],
     ['체중', candidate.weight],
   ]
   const foundAt = candidate.reportedAt?.includes('발견') ? candidate.reportedAt : `${candidate.reportedAt} 발견`
@@ -62,7 +62,7 @@ export default function ShelterDetails({ candidate, closed, mapUrl, phone, child
         </section>
 
         <section className={styles.facility} aria-label="보호소 정보">
-          <span className={styles.facilityIcon} aria-hidden="true" />
+          <span className={styles.facilityIcon} aria-hidden="true">🗺️</span>
           <div>
             <h2>{candidate.facility}</h2>
             <p>{[candidate.address, phone || '전화번호 없음'].filter(Boolean).join(' · ')}</p>
