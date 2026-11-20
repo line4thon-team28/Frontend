@@ -16,7 +16,7 @@ const ACTION_CARDS = [
   {
     to: '/sightings/new',
     title: '목격했어요',
-    description: '로그인 없이 사진·위치만 제보',
+    description: '로그인 없이 목격한 아이 제보',
     icon: cameraIcon,
     tone: 'dark',
   },
