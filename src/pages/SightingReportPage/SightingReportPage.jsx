@@ -61,8 +61,8 @@ export default function SightingReportPage() {
 
   const homePath = isAuthenticated ? '/home' : '/start'
   const location = resolveLocation(currentRegion, isEditingLocation, manualRegion)
-  const hasRequiredMedia = photos.length > 0 && Boolean(location)
-  const canSubmit = hasRequiredMedia && Boolean(species)
+  const missingCount = [photos.length > 0, Boolean(species), Boolean(location)].filter((filled) => !filled).length
+  const canSubmit = missingCount === 0
 
   const handleAddPhotos = async (files) => {
     setPhotoError('')
@@ -154,8 +154,7 @@ export default function SightingReportPage() {
 
   const submitLabel = () => {
     if (isSubmitting) return '제보하는 중'
-    if (!hasRequiredMedia) return '사진과 위치를 넣으면 제보할 수 있어요'
-    if (!species) return '동물 종류를 고르면 제보할 수 있어요'
+    if (missingCount > 0) return `필수 항목 ${missingCount}개를 채워주세요`
     return '제보하기'
   }
 
