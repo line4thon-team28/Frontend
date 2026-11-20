@@ -179,6 +179,10 @@
   font-weight: 700;
 }
 
+.invalidSpecies .speciesOption span {
+  border-color: var(--color-error);
+}
+
 .speciesOption input:checked + span {
   border-color: var(--color-dark);
   background: var(--color-dark);

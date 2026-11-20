@@ -10,7 +10,7 @@ import styles from './LostRegistrationForm.module.css'
 export default function LostRegistrationForm() {
   const {
     submitting, submitError, breeds, changeRegion,
-    values, photos, missingCount, invalidPhotos, invalidDate, invalidDistrict,
+    values, photos, missingCount, invalidPhotos, invalidSpecies, invalidDate, invalidDistrict,
     contactInput, updateValue, changeSpecies, changeDate, addPhotos, removePhoto, submit,
   } = useLostRegistrationForm()
 
@@ -22,6 +22,7 @@ export default function LostRegistrationForm() {
         <PetAttributesFields
           values={values}
           breeds={breeds}
+          invalidSpecies={invalidSpecies}
           invalidDate={invalidDate}
           changeSpecies={changeSpecies}
           changeDate={changeDate}

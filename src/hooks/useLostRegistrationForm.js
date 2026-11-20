@@ -6,10 +6,10 @@ import usePhotoPreviews from './usePhotoPreviews'
 
 export const PHOTO_LIMIT = 5
 const EMPTY_FORM = {
-  species: '고양이', name: '', breed: '', sex: '', coat: '', lostDate: '',
+  species: '', name: '', breed: '', sex: '', coat: '', lostDate: '',
   provinceCode: '', districtCode: '', place: '', features: '', contact: '',
 }
-export const FIELD_IDS = { photos: 'lost-photo', lostDate: 'lost-date', districtCode: 'lost-district' }
+export const FIELD_IDS = { photos: 'lost-photo', species: 'lost-species', lostDate: 'lost-date', districtCode: 'lost-district' }
 
 export default function useLostRegistrationForm() {
   const navigate = useNavigate()
@@ -22,6 +22,7 @@ export default function useLostRegistrationForm() {
   const species = values.species
 
   useEffect(() => {
+    if (!species) return
     let active = true
     fetchBreeds(species)
       .then(items => { if (active) setBreedResult({ species, items: items.map(item => item.name) }) })
@@ -31,8 +32,14 @@ export default function useLostRegistrationForm() {
 
   const contactInput = useRef(null)
 
-  const missingCount = Object.values(errors).filter(Boolean).length
-  const { photos: invalidPhotos, lostDate: invalidDate, districtCode: invalidDistrict } = errors
+  const requiredFilled = [
+    photos.length > 0,
+    Boolean(species),
+    Boolean(values.lostDate),
+    Boolean(values.provinceCode && values.districtCode.trim()),
+  ]
+  const missingCount = requiredFilled.filter(filled => !filled).length
+  const { photos: invalidPhotos, species: invalidSpecies, lostDate: invalidDate, districtCode: invalidDistrict } = errors
 
   function updateValue(event) {
     const { name, value } = event.target
@@ -46,6 +53,7 @@ export default function useLostRegistrationForm() {
 
   function changeSpecies(species) {
     setValues(previous => ({ ...previous, species, breed: '' }))
+    if (errors.species) setErrors(previous => ({ ...previous, species: false }))
   }
 
   function changeDate(date) {
@@ -67,6 +75,7 @@ export default function useLostRegistrationForm() {
     setSubmitError('')
     const missing = {
       photos: photos.length === 0,
+      species: !values.species,
       lostDate: !values.lostDate,
       districtCode: !values.provinceCode || !values.districtCode.trim(),
     }
@@ -91,7 +100,7 @@ export default function useLostRegistrationForm() {
   }
 
   return {
-    values, photos, missingCount, invalidPhotos, invalidDate, invalidDistrict,
+    values, photos, missingCount, invalidPhotos, invalidSpecies, invalidDate, invalidDistrict,
     submitting, submitError,
     breeds: breedResult?.species === species ? breedResult.items : [],
     changeRegion: ({ sidoCode, sigungu }) => {

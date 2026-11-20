@@ -27,25 +27,29 @@ function Select({ className = '', children, ...props }) {
   )
 }
 
-export function PetAttributesFields({ values, breeds, invalidDate, changeSpecies, changeDate, updateValue }) {
+export function PetAttributesFields({ values, breeds, invalidSpecies, invalidDate, changeSpecies, changeDate, updateValue }) {
   return (
     <>
       <fieldset className={styles.fieldset}>
         <legend className={styles.label}>종<RequiredMark /></legend>
-        <div className={styles.species}>
-          {SPECIES_LABELS.map(species => (
+        <div className={`${styles.species} ${invalidSpecies ? styles.invalidSpecies : ''}`}>
+          {SPECIES_LABELS.map((species, index) => (
             <label key={species} className={styles.speciesOption}>
               <input
+                id={index === 0 ? FIELD_IDS.species : undefined}
                 type="radio"
                 name="species"
                 value={species}
                 checked={values.species === species}
+                aria-invalid={invalidSpecies || undefined}
+                aria-describedby={invalidSpecies ? 'lost-species-error' : undefined}
                 onChange={() => changeSpecies(species)}
               />
               <span>{species}</span>
             </label>
           ))}
         </div>
+        {invalidSpecies && <FieldError id="lost-species-error">종을 골라 주세요</FieldError>}
       </fieldset>
 
       <TextField
