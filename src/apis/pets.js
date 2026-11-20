@@ -1,9 +1,10 @@
 import { request } from './client'
 
-export const speciesCodes = { 개: 'DOG', 고양이: 'CAT', 기타: 'ETC' }
+export const SPECIES_LABELS = ['강아지', '고양이', '기타']
+export const speciesCodes = { 강아지: 'DOG', 고양이: 'CAT', 기타: 'ETC', 개: 'DOG' }
 const sexCodes = { 수컷: 'MALE', 암컷: 'FEMALE' }
-const feedbackCodes = { match: 'yes', hidden: 'no' }
-const labels = { DOG: '개', CAT: '고양이', ETC: '기타', MALE: '수컷', FEMALE: '암컷', UNKNOWN: '모름' }
+const feedbackCodes = { match: 'YES', hidden: 'NO', none: 'NONE' }
+const labels = { DOG: '강아지', CAT: '고양이', ETC: '기타', MALE: '수컷', FEMALE: '암컷', UNKNOWN: '모름' }
 
 export function imageUrl(url) {
   return url?.startsWith('/') ? (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '') + url : url
@@ -55,7 +56,7 @@ export function retryMatches(id) {
 }
 
 export function saveFeedback(id, choice) {
-  return request(`/matches/${encodeURIComponent(id)}/feedback`, { method: 'POST', body: { result: feedbackCodes[choice] ?? 'none' } })
+  return request(`/matches/${encodeURIComponent(id)}/feedback`, { method: 'POST', body: { result: feedbackCodes[choice] ?? 'NONE' } })
 }
 
 export function fetchNotice(id) {

@@ -2,7 +2,7 @@ import alertIcon from '../../assets/icons/alert-field.svg'
 import ManualRegionPicker from '../LocationField/ManualRegionPicker'
 import TextField from '../TextField/TextField'
 import LostDatePicker from './LostDatePicker'
-import { speciesCodes } from '../../apis/pets'
+import { SPECIES_LABELS } from '../../apis/pets'
 import { FIELD_IDS } from '../../hooks/useLostRegistrationForm'
 import styles from './LostRegistrationForm.module.css'
 
@@ -33,7 +33,7 @@ export function PetAttributesFields({ values, breeds, invalidDate, changeSpecies
       <fieldset className={styles.fieldset}>
         <legend className={styles.label}>종<RequiredMark /></legend>
         <div className={styles.species}>
-          {Object.keys(speciesCodes).map(species => (
+          {SPECIES_LABELS.map(species => (
             <label key={species} className={styles.speciesOption}>
               <input
                 type="radio"
