@@ -9,7 +9,7 @@ export default function NotificationBell({ unreadCount: previewCount } = {}) {
 
   return (
     <Link to="/notifications" className={styles.bell} aria-label={label}>
-      <span className={styles.bellShape} aria-hidden="true" />
+      <span className={styles.bellIcon} aria-hidden="true" />
       {unreadCount > 0 && (
         <span className={styles.badge} aria-hidden="true">
           {unreadCount > 99 ? '99+' : unreadCount}
