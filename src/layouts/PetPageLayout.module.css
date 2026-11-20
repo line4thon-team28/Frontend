@@ -1,0 +1,94 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.tabPage {
+  composes: page;
+  min-height: calc(100dvh - var(--tab-bar-height));
+}
+
+.padded {
+  padding: calc(var(--page-top-space) + 6px) var(--page-padding-x) var(--page-bottom-space);
+}
+
+.centeredHeader {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  align-items: center;
+}
+
+.centeredHeader h1 {
+  text-align: center;
+}
+
+.centeredState {
+  display: grid;
+  flex: 1;
+  place-items: center;
+}
+
+.registrationState {
+  composes: centeredState;
+  padding: 28px 0 0;
+}
+
+.registrationState > section {
+  padding-inline: 0;
+}
+
+.form {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.stickyFooter {
+  position: sticky;
+  z-index: 1;
+  bottom: 0;
+  background: var(--color-background);
+}
+
+.card {
+  min-width: 0;
+  border-radius: 24px;
+  background: var(--color-surface);
+}
+
+.cardSummary {
+  display: grid;
+  align-items: start;
+}
+
+.cardActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.actionLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-input);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.outlineLink {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-label);
+}
+
+.actionLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

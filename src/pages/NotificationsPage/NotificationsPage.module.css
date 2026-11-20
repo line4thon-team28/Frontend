@@ -1,0 +1,144 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--tab-bar-height));
+  padding: calc(var(--page-top-space) + 6px) var(--page-padding-x) 32px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 35px;
+  letter-spacing: -0.5px;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.groupTitle {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 17px;
+  color: var(--color-text-muted);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.centered {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 40px;
+}
+
+.emptyButton {
+  color: var(--color-text);
+}
+
+.more {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.moreError {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 17px;
+  color: var(--color-error);
+  text-align: center;
+}
+
+.moreButton {
+  width: 100%;
+  color: var(--color-text);
+}
+
+.skeletonGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.skeletonHeading {
+  width: 28px;
+  height: 12px;
+  margin: 2px 0 3px;
+}
+
+.skeleton {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 20px;
+  background: var(--color-surface);
+}
+
+.skeletonLines {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.skeletonBlock {
+  display: block;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--color-skeleton) 0%, #f7f1e9 50%, var(--color-skeleton) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonPhoto {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+}
+
+.skeletonShort {
+  width: 30%;
+  height: 12px;
+}
+
+.skeletonLong {
+  width: 85%;
+  height: 14px;
+}
+
+.skeletonMedium {
+  width: 60%;
+  height: 12px;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonBlock {
+    animation: none;
+  }
+}

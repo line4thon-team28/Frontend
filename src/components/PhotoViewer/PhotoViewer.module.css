@@ -1,0 +1,108 @@
+.photoViewer {
+  width: min(600px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+}
+
+:global(html):has(.photoViewer:modal) {
+  overflow: hidden;
+}
+
+.viewerCard {
+  padding: clamp(12px, 3vw, 20px);
+}
+
+.viewerHeader,
+.viewerFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.viewerHeader {
+  margin-bottom: 10px;
+}
+
+.viewerHeader h2 {
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+
+.photoViewer button {
+  display: grid;
+  place-items: center;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0 8px;
+  border: 0;
+  color: var(--color-text);
+  background: var(--color-background);
+  cursor: pointer;
+}
+
+.photoViewer button:hover {
+  color: var(--color-primary-strong);
+  background: var(--color-primary-soft);
+}
+
+.photoViewer button:focus-visible {
+  outline: 2px solid var(--color-primary-strong);
+  outline-offset: -2px;
+}
+
+.viewerHeader button {
+  border-radius: 12px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.photoViewport {
+  border-radius: var(--radius-input);
+  background: var(--color-background);
+  cursor: grab;
+  touch-action: none;
+}
+
+.photoViewport:active {
+  cursor: grabbing;
+}
+
+.photoViewport img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.viewerFooter {
+  margin-top: 12px;
+}
+
+.viewerFooter p {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.zoomControls {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 12px;
+}
+
+.zoomControls button {
+  font-size: 16px;
+}
+
+.zoomControls button + button {
+  border-inline-start: 1px solid var(--color-border-soft);
+}
+
+.zoomControls button:nth-child(2) {
+  min-width: 52px;
+  font-size: 12px;
+  font-weight: 700;
+}

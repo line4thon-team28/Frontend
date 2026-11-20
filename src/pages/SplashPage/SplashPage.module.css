@@ -1,0 +1,114 @@
+.splash {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: linear-gradient(142deg, #e8791d 10.9%, #d46a14 89.1%);
+}
+
+.decoration {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.decorationTop {
+  top: 90px;
+  right: -90px;
+  width: 280px;
+  height: 280px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.decorationBottom {
+  top: 432px;
+  left: -110px;
+  width: 260px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.brand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 104px;
+  border-radius: 34px;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(60, 25, 0, 0.28);
+}
+
+.logoIcon {
+  width: 60px;
+  height: 60px;
+}
+
+.title {
+  margin-top: 11px;
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 58px;
+  letter-spacing: -1.6px;
+  color: #fff;
+}
+
+.subtitle {
+  margin-top: -4px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 17px;
+  letter-spacing: 2.9px;
+  color: #fff;
+}
+
+.loadingDots {
+  position: absolute;
+  bottom: 64px;
+  left: 50%;
+  display: flex;
+  gap: 6px;
+  transform: translateX(-50%);
+}
+
+.loadingDots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+.loadingDots span:nth-child(2) {
+  opacity: 0.6;
+  animation-delay: 0.2s;
+}
+
+.loadingDots span:nth-child(3) {
+  opacity: 0.3;
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadingDots span {
+    animation: none;
+  }
+}
