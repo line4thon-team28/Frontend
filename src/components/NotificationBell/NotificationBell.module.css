@@ -16,11 +16,12 @@
   outline-offset: 2px;
 }
 
-.bellShape {
-  width: 14px;
-  height: 16px;
-  border: 2px solid var(--color-text);
-  border-radius: 7px 7px 3px 3px;
+.bellIcon {
+  width: 20px;
+  height: 20px;
+  background: var(--color-text);
+  -webkit-mask: url('../../assets/icons/bell.svg') center / contain no-repeat;
+  mask: url('../../assets/icons/bell.svg') center / contain no-repeat;
 }
 
 .badge {
