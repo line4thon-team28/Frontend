@@ -84,7 +84,7 @@ export default function MyRegistrationsPage() {
           <h1 className={styles.heading}>내 등록</h1>
         </div>
         <p className={styles.greeting}>
-          {nickname}님{!loading && !error && !empty && ` · 찾는 중 ${searchingPets.length} · 찾음 ${foundPets.length}`}
+          {nickname ? `${nickname}님` : '등록 현황'}{!loading && !error && !empty && ` · 찾는 중 ${searchingPets.length} · 찾음 ${foundPets.length}`}
         </p>
       </header>
       {actionError && <p role="alert">{actionError}</p>}

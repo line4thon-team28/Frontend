@@ -23,7 +23,7 @@ export default function useMyRegistrationsPage() {
   const loading = live.loading
   const error = live.error
   const empty = pets.length === 0
-  const nickname = user?.nickname || '민지'
+  const nickname = user?.nickname || ''
   const searchingPets = pets.filter((pet) => pet.status !== 'found')
   const foundPets = pets.filter((pet) => pet.status === 'found')
 
