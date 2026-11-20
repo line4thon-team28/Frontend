@@ -33,21 +33,13 @@ function CandidateDetail({ model }) {
     )
   }
 
-  const contact = pet?.contact?.trim()
-  const registrationContact = contact && (
-    <section className={styles.facility} aria-label="연락처">
-      <span className={`${styles.facilityIcon} ${styles.contactIcon}`} aria-hidden="true">📞</span>
-      <div><h2>연락처</h2><p>{contact}</p></div>
-    </section>
-  )
-
   return (
     <main className={layout.page}>
       <DetailHeader candidate={candidate} pet={pet} backTo={backTo} isSighting={isSighting} closed={closed} />
       {actionError && <p role="alert">{actionError}</p>}
       {isSighting
         ? <SightingDetails candidate={candidate} feedbackEnabled={feedbackEnabled} onFeedback={handleFeedback} />
-        : <ShelterDetails candidate={shelter} closed={closed} mapUrl={mapUrl} phone={phone}>{registrationContact}</ShelterDetails>}
+        : <ShelterDetails candidate={shelter} closed={closed} mapUrl={mapUrl} phone={phone} />}
     </main>
   )
 }

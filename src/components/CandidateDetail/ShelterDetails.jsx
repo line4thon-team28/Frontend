@@ -25,7 +25,7 @@ function DeadlineCard({ candidate, closed }) {
   )
 }
 
-export default function ShelterDetails({ candidate, closed, mapUrl, phone, children }) {
+export default function ShelterDetails({ candidate, closed, mapUrl, phone }) {
   const facts = [
     ['색', candidate.coat],
     ['나이', formatPetAge(candidate.age)],
@@ -71,14 +71,6 @@ export default function ShelterDetails({ candidate, closed, mapUrl, phone, child
             <a className={styles.mapLink} href={mapUrl} target="_blank" rel="noreferrer">지도</a>
           )}
         </section>
-
-        {!closed && phone && candidate.supplies && (
-          <section className={styles.supplies}>
-            <h2>확인하러 갈 때 챙길 것</h2>
-            <p>{Array.isArray(candidate.supplies) ? candidate.supplies.join(' · ') : candidate.supplies}</p>
-          </section>
-        )}
-        {children}
       </section>
 
       {phone && (
