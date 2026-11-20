@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { fetchPets, updatePet } from '../apis/pets'
 import usePetRequest from './usePetRequest'
 import useAuth from './useAuth'
 
 export default function useMyRegistrationsPage() {
+  const navigate = useNavigate()
   const live = usePetRequest(fetchPets)
   const [action, setAction] = useState(null)
   const pets = live.data ?? []
@@ -19,7 +21,7 @@ export default function useMyRegistrationsPage() {
       setAction({ error: error.message })
     }
   }
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
   const loading = live.loading
   const error = live.error
   const empty = pets.length === 0
@@ -27,8 +29,23 @@ export default function useMyRegistrationsPage() {
   const searchingPets = pets.filter((pet) => pet.status !== 'found')
   const foundPets = pets.filter((pet) => pet.status === 'found')
 
+  function logout() {
+    if (!window.confirm('로그아웃하시겠어요?')) return
+    signOut()
+    try {
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith('pawpose.')) {
+          localStorage.removeItem(key)
+        }
+      })
+    } catch {
+      // storage unavailable
+    }
+    navigate('/start', { replace: true })
+  }
+
   return {
-    markFound, loading, error, empty, nickname, searchingPets, foundPets,
+    markFound, logout, loading, error, empty, nickname, searchingPets, foundPets,
     retry: live.reload,
     actionError: action?.error, busy: action?.busy,
   }

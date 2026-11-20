@@ -34,7 +34,7 @@ function NewRegistrationLink({ empty = false }) {
 }
 
 export default function MyRegistrationsPage() {
-  const { markFound, loading, error, empty, nickname, searchingPets, foundPets, retry, actionError, busy } = useMyRegistrationsPage()
+  const { markFound, logout, loading, error, empty, nickname, searchingPets, foundPets, retry, actionError, busy } = useMyRegistrationsPage()
 
   let content
   if (loading) {
@@ -82,6 +82,9 @@ export default function MyRegistrationsPage() {
       <header>
         <div className={styles.headingRow}>
           <h1 className={styles.heading}>내 등록</h1>
+          <button type="button" className={styles.logoutButton} onClick={logout}>
+            로그아웃
+          </button>
         </div>
         <p className={styles.greeting}>
           {nickname ? `${nickname}님` : '등록 현황'}{!loading && !error && !empty && ` · 찾는 중 ${searchingPets.length} · 찾음 ${foundPets.length}`}
