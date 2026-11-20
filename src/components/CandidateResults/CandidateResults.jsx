@@ -16,7 +16,7 @@ const SORT_OPTIONS = [
 export default function CandidateResults({ pet, model }) {
   const {
     sort, setSort, phase, found, hiddenCount, latestHiddenId, visibleCandidates, pinnedCandidates,
-    shownCandidates, viewingList, resultLabel, statusText, announcement, heading, undoButton, showFeedback,
+    shownCandidates, viewingList, hasCandidates, resultLabel, statusText, announcement, heading, undoButton, showFeedback,
     setFocusTarget, retryAnalysis, retryLoading, precise, unreadCount, processingMessage, actionError, busy,
   } = model
 
@@ -73,7 +73,7 @@ export default function CandidateResults({ pet, model }) {
       <div className={styles.announcement} role="status">{announcement}</div>
 
       {actionError && <p role="alert">{actionError}</p>}
-      <CandidateStatus processingMessage={processingMessage} busy={busy} phase={phase} pet={pet} found={found} retryAnalysis={retryAnalysis} retryLoading={retryLoading} />
+      <CandidateStatus processingMessage={processingMessage} busy={busy} phase={phase} pet={pet} found={found} hasCandidates={hasCandidates} retryAnalysis={retryAnalysis} retryLoading={retryLoading} />
 
       {viewingList && !found && pinnedCandidates.length > 0 && (
         <section className={styles.stack} aria-label="비슷해요로 표시한 후보">

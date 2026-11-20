@@ -36,7 +36,7 @@ export default function useLiveCandidates() {
     if (!autoRefresh) return
     const timer = window.setTimeout(reload, (retryAfter ?? 10) * 1000)
     return () => window.clearTimeout(timer)
-  }, [autoRefresh, retryAfter, reload])
+  }, [autoRefresh, retryAfter, reload, response])
 
   const error = selected.error || pets.error || matches.error
   const phase = error ? 'error'
@@ -46,7 +46,8 @@ export default function useLiveCandidates() {
   const visibleCandidates = (response?.items ?? []).map(toCandidate)
   const pinnedCandidates = visibleCandidates.filter(item => item.feedback === 'YES')
   const shownCandidates = found ? visibleCandidates : visibleCandidates.filter(item => item.feedback !== 'YES')
-  const viewingList = ['ready', 'partial', 'found'].includes(phase)
+  const hasCandidates = visibleCandidates.length > 0
+  const viewingList = ['ready', 'partial', 'found'].includes(phase) || (phase === 'analyzing' && hasCandidates)
   const latestHiddenId = undo && undo.petId === petId ? undo.id
     : undo === null && petId ? state?.hiddenCandidateId : null
   const lostDate = formatPetDate(pet?.lostDate, true)
@@ -66,10 +67,15 @@ export default function useLiveCandidates() {
     }
   }
 
+  const candidateCount = response?.totalCount ?? visibleCandidates.length
+  const resultLabel = viewingList
+    ? (phase === 'analyzing' ? `후보 ${candidateCount}건 (비교 중...)` : `후보 ${candidateCount}건`)
+    : phase === 'loading' ? '불러오는 중' : ''
+
   return {
-    pet, sort, setSort, phase, found, viewingList, visibleCandidates, pinnedCandidates, shownCandidates,
-    latestHiddenId, hiddenCount: latestHiddenId ? 1 : 0, precise: true, statusText,
-    resultLabel: viewingList ? `후보 ${response.totalCount}건` : phase === 'loading' ? '불러오는 중' : '',
+    pet, sort, setSort, phase, found, viewingList, hasCandidates, visibleCandidates, pinnedCandidates, shownCandidates,
+    latestHiddenId, hiddenCount: latestHiddenId ? 1 : 0, precise: Boolean(response?.scoreIsProbability), statusText,
+    resultLabel,
     processingMessage: response?.processingMessage, actionError: action?.error, busy: action?.busy,
     retryLoading: () => { if (error === selected.error) selected.reload(); else if (error === pets.error) pets.reload(); else reload() },
     retryAnalysis: () => run(() => retryMatches(petId)),

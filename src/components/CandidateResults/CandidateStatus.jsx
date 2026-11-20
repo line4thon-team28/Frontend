@@ -32,7 +32,7 @@ function WaitingStatus({ title, description, children }) {
   )
 }
 
-export default function CandidateStatus({ phase, pet, found, retryAnalysis, retryLoading, processingMessage, busy }) {
+export default function CandidateStatus({ phase, pet, found, retryAnalysis, retryLoading, processingMessage, busy, hasCandidates }) {
   return (
     <>
     {phase === 'loading' && (
@@ -41,7 +41,13 @@ export default function CandidateStatus({ phase, pet, found, retryAnalysis, retr
       </div>
     )}
 
-    {phase === 'analyzing' && (
+    {phase === 'analyzing' && hasCandidates && (
+      <Notice title="추가 사진 비교 중">
+        {processingMessage || '추가 사진을 계속 비교하고 있어요. 확인된 후보부터 먼저 보여드릴게요.'}
+      </Notice>
+    )}
+
+    {phase === 'analyzing' && !hasCandidates && (
       <div className={styles.stack}>
         <section className={styles.analyzingCard}>
           <div className={styles.progressPhoto} role="progressbar" aria-label="사진 분석 중"><PetPhoto photo={pet?.photo} /></div>
