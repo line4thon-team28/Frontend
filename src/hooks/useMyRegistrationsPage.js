@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { startTransition, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { fetchPets, updatePet } from '../apis/pets'
 import usePetRequest from './usePetRequest'
@@ -31,7 +31,6 @@ export default function useMyRegistrationsPage() {
 
   function logout() {
     if (!window.confirm('로그아웃하시겠어요?')) return
-    signOut()
     try {
       Object.keys(localStorage).forEach((key) => {
         if (key.startsWith('pawpose.')) {
@@ -41,7 +40,10 @@ export default function useMyRegistrationsPage() {
     } catch {
       // storage unavailable
     }
-    navigate('/start', { replace: true })
+    startTransition(() => {
+      navigate('/start', { replace: true })
+      signOut()
+    })
   }
 
   return {
